@@ -206,12 +206,13 @@ body {
 /* Hero Section */
 .hero {
     min-height: 100vh;
+    max-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    padding-top: 80px;
+    padding: 100px 0 60px 0;
 }
 
 .hero-background {
@@ -518,6 +519,86 @@ body {
 
 section {
     padding: var(--spacing-xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Global Section Background */
+section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(200, 100, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 100, 255, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+section>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* Gradient orbs for all sections */
+.about::after,
+.skills::after,
+.experience::after,
+.projects::after,
+.education::after,
+.contact::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.about::after {
+    background: hsl(280, 80%, 60%);
+    top: 10%;
+    right: -100px;
+    animation: float 25s infinite ease-in-out;
+}
+
+.skills::after {
+    background: hsl(250, 70%, 55%);
+    bottom: 10%;
+    left: -100px;
+    animation: float 30s infinite ease-in-out reverse;
+}
+
+.experience::after {
+    background: hsl(200, 80%, 60%);
+    top: 50%;
+    right: -150px;
+    animation: float 28s infinite ease-in-out;
+}
+
+.projects::after {
+    background: hsl(280, 80%, 60%);
+    bottom: 20%;
+    left: -120px;
+    animation: float 26s infinite ease-in-out reverse;
+}
+
+.education::after {
+    background: hsl(250, 70%, 55%);
+    top: 30%;
+    right: -100px;
+    animation: float 24s infinite ease-in-out;
+}
+
+.contact::after {
+    background: hsl(200, 80%, 60%);
+    top: 10%;
+    left: -100px;
+    animation: float 27s infinite ease-in-out reverse;
 }
 
 .section-header {
