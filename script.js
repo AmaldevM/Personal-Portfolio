@@ -1,3 +1,15 @@
+// Preloader
+window.addEventListener('load', () => {
+    const preloader = document.querySelector('.preloader');
+    setTimeout(() => {
+        preloader.classList.add('fade-out');
+        // Remove from DOM after animation
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 600);
+    }, 2000); // Show preloader for 2 seconds
+});
+
 // Navigation functionality
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
@@ -19,7 +31,7 @@ navLinks.forEach(link => {
 window.addEventListener('scroll', () => {
     let current = '';
     const sections = document.querySelectorAll('section');
-    
+
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
@@ -51,7 +63,7 @@ let isDeleting = false;
 
 function type() {
     const currentTitle = titles[titleIndex];
-    
+
     if (isDeleting) {
         typingText.textContent = currentTitle.substring(0, charIndex - 1);
         charIndex--;
@@ -83,18 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
 const contactForm = document.getElementById('contactForm');
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
+
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const message = document.getElementById('message').value;
-    
+
     // Create mailto link
     const subject = `Portfolio Contact from ${name}`;
     const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
     const mailtoLink = `mailto:amaldevm.dev@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
+
     window.location.href = mailtoLink;
-    
+
     // Reset form
     contactForm.reset();
 });
