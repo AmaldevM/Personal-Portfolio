@@ -290,7 +290,7 @@ body {
 .hero-greeting {
     font-size: 1.2rem;
     color: var(--accent-primary);
-    /* margin-bottom: var(--spacing-xs); */
+    margin-bottom: 2px;
 }
 
 .hero-name {
@@ -419,8 +419,6 @@ body {
 .profile-ring {
     position: absolute;
     inset: -15px;
-    border-radius: 50%;
-    background: var(--gradient-1);
     opacity: 0.4;
     filter: blur(25px);
     animation: pulse 3s ease-in-out infinite;
