@@ -35,7 +35,7 @@
 .hero-content-left {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: 1rem;
 }
 
 .hero-name-large {
@@ -208,6 +208,8 @@
     display: flex;
     gap: 1rem;
     margin-top: var(--spacing-sm);
+    position: relative;
+    z-index: 10;
 }
 
 .social-icon-modern {
@@ -222,6 +224,8 @@
     font-size: 1.25rem;
     border: 1px solid rgba(200, 100, 255, 0.2);
     transition: all var(--transition-normal);
+    position: relative;
+    z-index: 10;
 }
 
 .social-icon-modern:hover {
