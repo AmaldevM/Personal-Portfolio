@@ -145,13 +145,19 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(18, 18, 30, 0.6);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    background: transparent;
     padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid transparent;
     transition: all var(--transition-normal);
+}
+
+.navbar.scrolled {
+    background: rgba(18, 18, 30, 0.4);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    padding: 0.8rem 0;
 }
 
 .nav-container {
