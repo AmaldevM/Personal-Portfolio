@@ -1,13 +1,30 @@
 // Preloader
 window.addEventListener('load', () => {
     const preloader = document.querySelector('.preloader');
-    setTimeout(() => {
+    const mainContent = document.querySelector('.main-content');
+    let preloaderTimeout;
+
+    const hidePreloader = () => {
+        if (preloader.classList.contains('fade-out')) return;
+
+        clearTimeout(preloaderTimeout);
         preloader.classList.add('fade-out');
-        // Remove from DOM after animation
+
+        // Start main content reveal slightly after preloader starts fading
+        setTimeout(() => {
+            mainContent.classList.add('reveal');
+        }, 100);
+
         setTimeout(() => {
             preloader.style.display = 'none';
-        }, 600);
-    }, 2000); // Show preloader for 2 seconds
+        }, 800);
+    };
+
+    // Auto-hide after 5 seconds
+    preloaderTimeout = setTimeout(hidePreloader, 5000);
+
+    // Dismiss on click
+    preloader.addEventListener('click', hidePreloader);
 });
 
 // Navigation functionality
