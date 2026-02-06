@@ -442,10 +442,10 @@
     }
 
     .profile-main-image {
-        width: 260px;
-        height: 260px;
-        border-radius: 50%;
-        /* Back to circle for the bottom section */
+        width: 100%;
+        max-width: 320px;
+        aspect-ratio: 4 / 5;
+        border-radius: var(--radius-lg);
     }
 }
 
@@ -479,12 +479,11 @@
     }
 
     .profile-main-image {
-        width: 220px;
-        height: 220px;
+        max-width: 280px;
     }
 
     .profile-email-badge {
-        padding: 0.75rem 1.25rem;
-        font-size: 0.85rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
     }
 }

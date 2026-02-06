@@ -234,6 +234,21 @@ body {
     padding: 100px 0 60px 0;
 }
 
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.fixed-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
 .hero-background {
     position: absolute;
     inset: 0;
@@ -1076,6 +1091,7 @@ section>* {
 .contact-social {
     display: flex;
     gap: var(--spacing-sm);
+    flex-wrap: wrap;
 }
 
 .social-btn {
