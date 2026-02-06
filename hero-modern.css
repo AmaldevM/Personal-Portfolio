@@ -30,9 +30,9 @@
 
 .hero-scroll-prompt {
     position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 3rem;
+    right: 4rem;
+    /* Moved to right side */
     display: flex;
     flex-direction: column;
     align-items: center;
