@@ -19,12 +19,22 @@
 </head>
 
 <body>
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
   <!-- Global Background -->
   <div class="fixed-background">
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
     <div class="grid-overlay"></div>
+
+    <!-- Floating 3D Elements -->
+    <div class="floating-container">
+      <div class="floating-shape shape-1"></div>
+      <div class="floating-shape shape-2"></div>
+      <div class="floating-shape shape-3"></div>
+    </div>
   </div>
 
   <!-- Preloader -->
@@ -44,21 +54,43 @@
         <div class="nav-logo">
           <span class="logo-text">Amal<span class="accent">.</span>dev</span>
         </div>
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="#home" class="nav-link active">Home</a></li>
-          <li><a href="#about" class="nav-link">About</a></li>
-          <li><a href="#skills" class="nav-link">Skills</a></li>
-          <li><a href="#experience" class="nav-link">Experience</a></li>
-          <li><a href="#projects" class="nav-link">Projects</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
-        </ul>
-        <div class="hamburger" id="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="nav-links">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#skills" class="nav-link">Skills</a>
+          <a href="#experience" class="nav-link">Experience</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#contact" class="nav-link">Contact</a>
         </div>
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </nav>
+
+    <!-- Full Screen Mobile Menu -->
+    <div class="mobile-menu">
+      <div class="mobile-menu-content">
+        <div class="mobile-nav-links">
+          <a href="#home" class="mobile-nav-link"><span>01</span> Home</a>
+          <a href="#about" class="mobile-nav-link"><span>02</span> About</a>
+          <a href="#skills" class="mobile-nav-link"><span>03</span> Skills</a>
+          <a href="#experience" class="mobile-nav-link"><span>04</span> Journey</a>
+          <a href="#projects" class="mobile-nav-link"><span>05</span> Projects</a>
+          <a href="#contact" class="mobile-nav-link"><span>06</span> Contact</a>
+        </div>
+        <div class="mobile-menu-footer">
+          <div class="mobile-socials">
+            <a href="https://linkedin.com/in/amaldev-m" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/AmaldevM" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://instagram.com/amaldevharidas" target="_blank"><i class="fab fa-instagram"></i></a>
+          </div>
+          <p>amaldevm.dev@gmail.com</p>
+        </div>
+      </div>
+    </div>
 
     <!-- Full Screen Interactive Hero -->
     <section class="hero-full" id="home">
@@ -73,10 +105,10 @@
     </section>
 
     <!-- Profile Overview (Relocated Hero Content) -->
-    <section class="section profile-overview" id="profile-summary">
+    <section class="section profile-overview reveal reveal-up" id="profile-summary">
       <div class="container">
         <div class="profile-overview-main">
-          <div class="hero-content-left">
+          <div class="hero-content-left reveal reveal-left" data-delay="200">
             <span class="hero-greeting">Hi, I'm</span>
             <h1 class="hero-name-large">AMALDEV<span class="accent">.</span>M</h1>
             <h2 class="hero-title-large">
@@ -139,14 +171,14 @@
 
 
     <!-- About Section -->
-    <section class="about" id="about">
+    <section class="about reveal reveal-up" id="about">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal reveal-left">
           <span class="section-tag">Get To Know</span>
           <h2 class="section-title">About Me</h2>
         </div>
         <div class="about-content">
-          <div class="about-text">
+          <div class="about-text reveal reveal-left" data-delay="300">
             <p class="about-description">
               Motivated Full Stack Developer with hands-on experience building production-ready web applications through
               multiple internships and industry training programs. Completed a 3-month internship at Tertius Life
@@ -201,14 +233,14 @@
     </section>
 
     <!-- Skills Section -->
-    <section class="skills" id="skills">
+    <section class="skills reveal reveal-up" id="skills">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal reveal-right">
           <span class="section-tag">What I Know</span>
           <h2 class="section-title">Technical Skills</h2>
         </div>
         <div class="skills-grid">
-          <div class="skill-category">
+          <div class="skill-category reveal reveal-up" data-delay="100">
             <h3 class="category-title">
               <i class="fas fa-laptop-code"></i>
               Core Technologies
@@ -223,7 +255,7 @@
               <span class="skill-tag">TypeScript</span>
             </div>
           </div>
-          <div class="skill-category">
+          <div class="skill-category reveal reveal-up" data-delay="200">
             <h3 class="category-title">
               <i class="fas fa-globe"></i>
               Web Technologies
@@ -236,7 +268,7 @@
               <span class="skill-tag">JWT Authentication</span>
             </div>
           </div>
-          <div class="skill-category">
+          <div class="skill-category reveal reveal-up" data-delay="300">
             <h3 class="category-title">
               <i class="fas fa-database"></i>
               Database Management
@@ -247,7 +279,7 @@
               <span class="skill-tag">Firestore</span>
             </div>
           </div>
-          <div class="skill-category">
+          <div class="skill-category reveal reveal-up" data-delay="400">
             <h3 class="category-title">
               <i class="fas fa-tools"></i>
               Tools & Platform
@@ -263,7 +295,7 @@
               <span class="skill-tag">Vercel</span>
             </div>
           </div>
-          <div class="skill-category">
+          <div class="skill-category reveal reveal-up" data-delay="500">
             <h3 class="category-title">
               <i class="fas fa-cogs"></i>
               Development Practices
@@ -280,9 +312,9 @@
     </section>
 
     <!-- Experience Section -->
-    <section class="experience" id="experience">
+    <section class="experience reveal reveal-up" id="experience">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal reveal-left">
           <span class="section-tag">My Journey</span>
           <h2 class="section-title">Work Experience</h2>
         </div>
@@ -290,7 +322,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <div class="experience-card">
+              <div class="experience-card reveal reveal-up" data-delay="100">
                 <div class="experience-header">
                   <div>
                     <h3 class="experience-title">Junior Software Engineer (Intern)</h3>
@@ -315,7 +347,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <div class="experience-card">
+              <div class="experience-card reveal reveal-up" data-delay="200">
                 <div class="experience-header">
                   <div>
                     <h3 class="experience-title">Software Developer (On-Job Training)</h3>
@@ -340,7 +372,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <div class="experience-card">
+              <div class="experience-card reveal reveal-up" data-delay="300">
                 <div class="experience-header">
                   <div>
                     <h3 class="experience-title">Web Developer (Trainee)</h3>
@@ -361,7 +393,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <div class="experience-card">
+              <div class="experience-card reveal reveal-up" data-delay="400">
                 <div class="experience-header">
                   <div>
                     <h3 class="experience-title">MERN Stack Developer (Trainee)</h3>
@@ -390,7 +422,7 @@
           <h2 class="section-title">Featured Projects</h2>
         </div>
         <div class="projects-grid">
-          <div class="project-card">
+          <div class="project-card card-featured reveal reveal-up" data-delay="100">
             <div class="project-image">
               <img src="tertius.png" alt="Tertius Integrity App - Dashboard"
                 style="width: 100%; height: 100%; object-fit: cover;">
@@ -414,7 +446,7 @@
             </div>
           </div>
 
-          <div class="project-card">
+          <div class="project-card card-standard reveal reveal-up" data-delay="200">
             <div class="project-image">
               <img src="resumify.png" alt="Resumify - AI Resume Parser"
                 style="width: 100%; height: 100%; object-fit: cover;">
@@ -436,7 +468,7 @@
             </div>
           </div>
 
-          <div class="project-card">
+          <div class="project-card card-standard reveal reveal-up" data-delay="300">
             <div class="project-image">
               <img src="flaveme.png" alt="FlaveMe - Food Ordering Platform"
                 style="width: 100%; height: 100%; object-fit: cover;">
@@ -460,7 +492,7 @@
             </div>
           </div>
 
-          <div class="project-card">
+          <div class="project-card card-wide reveal reveal-up" data-delay="400">
             <div class="project-image">
               <img src="lifexpy.png" alt="Lifexpy - Gamified Discovery System"
                 style="width: 100%; height: 100%; object-fit: cover;">
@@ -488,14 +520,14 @@
     </section>
 
     <!-- Education Section -->
-    <section class="education" id="education">
+    <section class="education reveal reveal-up" id="education">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal reveal-right">
           <span class="section-tag">Academic Background</span>
           <h2 class="section-title">Education</h2>
         </div>
         <div class="education-content">
-          <div class="education-card">
+          <div class="education-card reveal reveal-up" data-delay="200">
             <div class="education-icon">
               <i class="fas fa-graduation-cap"></i>
             </div>
@@ -515,14 +547,14 @@
     </section>
 
     <!-- Contact Section -->
-    <section class="contact" id="contact">
+    <section class="contact reveal reveal-up" id="contact">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal reveal-left">
           <span class="section-tag">Get In Touch</span>
           <h2 class="section-title">Contact Me</h2>
         </div>
         <div class="contact-content">
-          <div class="contact-info">
+          <div class="contact-info reveal reveal-left" data-delay="200">
             <p class="contact-text">
               I'm currently looking for new opportunities and would love to hear from you. Whether you have a question
               or
@@ -568,7 +600,7 @@
               </a>
             </div>
           </div>
-          <div class="contact-form-wrapper">
+          <div class="contact-form-wrapper reveal reveal-right" data-delay="300">
             <form class="contact-form" id="contactForm">
               <div class="form-group">
                 <label for="name">Your Name</label>
@@ -610,7 +642,8 @@
         </div>
       </footer>
 
-      <!-- Main Script -->
+      <!-- Main Scripts -->
+      <script src="mouse-trail.js"></script>
       <script src="script.js"></script>
   </div>
 </body>
