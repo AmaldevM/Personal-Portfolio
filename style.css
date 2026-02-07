@@ -24,6 +24,7 @@
     --radius-lg: 20px;
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
 }
 
 /* ==================== INTERACTIVE SECTION ==================== */
@@ -1029,12 +1030,39 @@ section>* {
 }
 
 /* Projects Bento Grid */
+.projects {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.projects .container {
+    height: 100%;
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center the grid vertically */
+    padding: 1.5rem var(--spacing-md);
+    /* Minimum safe padding */
+}
+
+.projects .section-header {
+    margin-bottom: 2rem;
+    flex-shrink: 0;
+}
+
 .projects-grid {
+    flex: 1;
+    min-height: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: minmax(200px, auto);
-    gap: var(--spacing-sm);
-    /* Tight Bento gap */
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1.5rem;
+    /* Better balance between cards */
 }
 
 .project-card {
@@ -1048,34 +1076,41 @@ section>* {
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    /* Allow card to shrink in flex grid */
 }
 
 /* Bento Card Sizes */
 .card-featured {
-    grid-column: span 2;
-    grid-row: span 2;
+    grid-area: 1 / 1 / 3 / 3;
 }
 
-.card-standard {
-    grid-column: span 1;
-    grid-row: span 1;
+/* Map specific cards to the 4x2 grid */
+.project-card:nth-of-type(2) {
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.project-card:nth-of-type(3) {
+    grid-area: 1 / 4 / 2 / 5;
 }
 
 .card-wide {
-    grid-column: span 3;
+    grid-area: 2 / 3 / 3 / 5;
 }
 
 .project-card:hover {
-    transform: scale(1.02);
+    transform: scale(1.01);
     border-color: var(--accent-primary);
     background: rgba(255, 255, 255, 0.06);
 }
 
 .project-image {
     position: relative;
-    flex: 1;
+    flex: 9;
+    /* Give most of the room to the image */
     overflow: hidden;
     background: #111;
+    min-height: 80px;
 }
 
 /* Improved framing for featured dashboads and wide collages */
@@ -1091,36 +1126,41 @@ section>* {
     transform: scale(1.05);
 }
 
-.card-featured .project-image {
-    height: 350px;
-    /* Balanced height to fit strictly 'under 200%' of standard rows */
-}
-
 .card-featured .project-image img {
     object-position: top;
     /* Show the top of the dashboard */
 }
 
-.card-wide .project-image {
-    height: 250px;
-    /* Specific height for wide collage */
-}
-
 .project-content {
-    padding: var(--spacing-md);
+    padding: 0.5rem 0.75rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    flex-shrink: 0;
 }
 
 .project-title {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-sm);
+    font-size: 1.25rem;
+    margin-bottom: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Standard cards hide description to save room for thumbnails */
+.card-standard .project-description,
+.card-wide .project-description {
+    display: none;
 }
 
 .project-description {
     color: var(--text-secondary);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    line-clamp: 1;
+    overflow: hidden;
 }
 
 .project-tech {
@@ -1130,22 +1170,39 @@ section>* {
 }
 
 .tech-badge {
-    padding: 0.375rem 0.75rem;
+    padding: 0.15rem 0.4rem;
     background: var(--bg-medium);
     border-radius: var(--radius-sm);
-    font-size: 0.875rem;
+    font-size: 0.65rem;
     color: var(--accent-primary);
-    border: 1px solid rgba(200, 100, 255, 0.2);
+    border: 1px solid rgba(200, 100, 255, 0.1);
 }
 
 @media (max-width: 1024px) {
+    .projects {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .projects .container {
+        height: auto;
+    }
+
     .projects-grid {
+        display: grid;
         grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        flex: none;
     }
 
     .card-featured,
-    .card-wide {
+    .card-wide,
+    .project-card:nth-of-type(2),
+    .project-card:nth-of-type(3) {
         grid-column: span 2;
+        grid-row: auto;
+        grid-area: auto;
     }
 }
 
@@ -1161,8 +1218,8 @@ section>* {
         grid-row: span 1;
     }
 
-    .card-featured .project-image {
-        height: 200px;
+    .project-image {
+        aspect-ratio: 16 / 9;
     }
 }
 
