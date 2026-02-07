@@ -27,20 +27,25 @@ window.addEventListener('load', () => {
     preloader.addEventListener('click', hidePreloader);
 });
 
-// Navigation functionality
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('navMenu');
+// Mobile Menu Functionality
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const mobileMenu = document.querySelector('.mobile-menu');
+const mobileLinks = document.querySelectorAll('.mobile-nav-link');
 const navLinks = document.querySelectorAll('.nav-link');
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
+const toggleMenu = () => {
+    mobileMenuBtn.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+};
 
-navLinks.forEach(link => {
+mobileMenuBtn.addEventListener('click', toggleMenu);
+
+mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
     });
 });
 
@@ -128,27 +133,27 @@ contactForm.addEventListener('submit', (e) => {
     contactForm.reset();
 });
 
-// Scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
+// Enhanced Scroll Reveal
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            // Add a small delay for staggered effect if requested
+            const delay = entry.target.dataset.delay || 0;
+            setTimeout(() => {
+                entry.target.classList.add('active');
+            }, delay);
+            // Once revealed, no need to observe again
+            revealObserver.unobserve(entry.target);
         }
     });
-}, observerOptions);
+}, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -50px 0px'
+});
 
-// Observe all cards and sections
-document.querySelectorAll('.experience-card, .project-card, .skill-category, .highlight-card, .stat-card, .education-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+// Select all elements to reveal
+document.querySelectorAll('.reveal').forEach((el, index) => {
+    revealObserver.observe(el);
 });
 
 // Smooth scroll for anchor links
@@ -167,10 +172,80 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Navbar background on scroll
 const navbar = document.getElementById('navbar');
+// Parallax Effect for 3D Shapes
+const shapes = document.querySelectorAll('.floating-shape');
 window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+
+    shapes.forEach((shape, index) => {
+        // Different speeds for different shapes
+        const speed = (index + 1) * 0.1;
+        const yOffset = scrolled * speed;
+        // Combine the existing drift animation with the parallax offset
+        shape.style.top = `${(index * 20 + 15) - (yOffset / 10)}%`;
+    });
+
     if (window.scrollY > 100) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
 });
+
+
+// Magnetic Elements Effect
+const magneticElements = document.querySelectorAll('.btn-modern, .social-icon-modern, .social-btn, .btn-primary, .nav-link, .project-card');
+
+magneticElements.forEach(item => {
+    item.addEventListener('mousemove', function (e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        this.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+    });
+
+    item.addEventListener('mouseleave', function (e) {
+        this.style.transform = `translate(0px, 0px)`;
+    });
+});
+
+// Custom Cursor Logic
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
+
+let cursorX = 0;
+let cursorY = 0;
+let outlineX = 0;
+let outlineY = 0;
+
+window.addEventListener('mousemove', (e) => {
+    cursorX = e.clientX;
+    cursorY = e.clientY;
+
+    cursorDot.style.left = `${cursorX}px`;
+    cursorDot.style.top = `${cursorY}px`;
+});
+
+function animateCursor() {
+    // Smooth easing for the outline
+    const easing = 0.15;
+    outlineX += (cursorX - outlineX) * easing;
+    outlineY += (cursorY - outlineY) * easing;
+
+    cursorOutline.style.left = `${outlineX}px`;
+    cursorOutline.style.top = `${outlineY}px`;
+
+    requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Cursor Hover States
+const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card');
+
+interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovering'));
+});
+
+
