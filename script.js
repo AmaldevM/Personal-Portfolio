@@ -1,33 +1,39 @@
-// Preloader
+// Preloader with minimum display time
 const preloader = document.querySelector('.preloader');
 const mainContent = document.querySelector('.main-content');
+const minLoadingTime = 2200; // Show preloader for at least 2.2 seconds
+const startTime = Date.now();
 let preloaderTimeout;
 
-const hidePreloader = () => {
+const hidePreloader = (force = false) => {
     if (!preloader || preloader.classList.contains('fade-out')) return;
 
-    clearTimeout(preloaderTimeout);
-    preloader.classList.add('fade-out');
-
-    // Start main content reveal slightly after preloader starts fading
-    setTimeout(() => {
-        if (mainContent) mainContent.classList.add('reveal');
-    }, 100);
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = force ? 0 : Math.max(0, minLoadingTime - elapsedTime);
 
     setTimeout(() => {
-        preloader.style.display = 'none';
-    }, 800);
+        preloader.classList.add('fade-out');
+
+        // Start main content reveal slightly after preloader starts fading
+        setTimeout(() => {
+            if (mainContent) mainContent.classList.add('reveal');
+        }, 100);
+
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 800);
+    }, remainingTime);
 };
 
-// Dismiss when page is fully loaded
-window.addEventListener('load', hidePreloader);
+// Dismiss when page is fully loaded (respecting min display time)
+window.addEventListener('load', () => hidePreloader(false));
 
-// Auto-hide after 3 seconds (fail-safe in case load event takes too long or hangs)
-preloaderTimeout = setTimeout(hidePreloader, 3000);
+// Fallback auto-hide after 5 seconds if load event hangs
+preloaderTimeout = setTimeout(() => hidePreloader(false), 5000);
 
-// Dismiss immediately on click
+// Dismiss immediately on click (if user wants to skip)
 if (preloader) {
-    preloader.addEventListener('click', hidePreloader);
+    preloader.addEventListener('click', () => hidePreloader(true));
 }
 
 // Mobile Menu Functionality
