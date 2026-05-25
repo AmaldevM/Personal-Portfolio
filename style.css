@@ -388,6 +388,8 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-md);
     animation: drift 20s infinite ease-in-out;
+    transform: translate3d(0, var(--parallax-y, 0px), 0);
+    will-change: transform;
 }
 
 .shape-1 {
@@ -395,7 +397,6 @@ body {
     height: 200px;
     top: 15%;
     left: 10%;
-    transform: rotate(15deg);
     animation-delay: 0s;
 }
 
@@ -404,7 +405,6 @@ body {
     height: 150px;
     bottom: 20%;
     right: 15%;
-    transform: rotate(-15deg);
     animation-delay: -5s;
     border-radius: 50%;
     /* Mix of shapes */
@@ -415,19 +415,17 @@ body {
     height: 100px;
     top: 50%;
     right: 40%;
-    transform: rotate(45deg);
     animation-delay: -10s;
 }
 
 @keyframes drift {
-
     0%,
     100% {
-        transform: translate(0, 0) rotate(15deg);
+        transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(15deg);
     }
 
     50% {
-        transform: translate(30px, -50px) rotate(35deg);
+        transform: translate3d(30px, calc(var(--parallax-y, 0px) - 50px), 0) rotate(35deg);
     }
 }
 

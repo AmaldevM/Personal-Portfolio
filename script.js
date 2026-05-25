@@ -49,39 +49,66 @@ mobileLinks.forEach(link => {
     });
 });
 
-// Active nav link on scroll
+// Active nav link, navbar styling, and 3D shapes parallax on scroll (Unified & requestAnimationFrame optimized)
+const navbar = document.getElementById('navbar');
+const shapes = document.querySelectorAll('.floating-shape');
+let scrollTicking = false;
+
 window.addEventListener('scroll', () => {
-    let current = '';
-    const sections = document.querySelectorAll('section');
+    if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+            const scrolled = window.scrollY;
 
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (window.scrollY >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-        }
-    });
+            // 1. Navbar scrolled state
+            if (scrolled > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
 
-    // Mappings for nested or supplementary sections
-    if (current === 'profile-summary') {
-        current = 'home';
-    } else if (current === 'education') {
-        current = 'experience';
+            // 2. Parallax shapes CSS variables update
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.15;
+                const yOffset = scrolled * speed;
+                shape.style.setProperty('--parallax-y', `${-yOffset}px`);
+            });
+
+            // 3. Scroll spy active section selection
+            let current = '';
+            const sections = document.querySelectorAll('section');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrolled >= (sectionTop - 220)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            if (current === 'profile-summary') {
+                current = 'home';
+            } else if (current === 'education') {
+                current = 'experience';
+            }
+
+            // 4. Update desktop & mobile nav link active classes
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+
+            scrollTicking = false;
+        });
+        scrollTicking = true;
     }
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.classList.add('active');
-        }
-    });
-
-    mobileLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.classList.add('active');
-        }
-    });
 });
 
 // Typing animation
@@ -184,31 +211,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar background on scroll
-const navbar = document.getElementById('navbar');
-// Parallax Effect for 3D Shapes
-const shapes = document.querySelectorAll('.floating-shape');
-window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-
-    shapes.forEach((shape, index) => {
-        // Different speeds for different shapes
-        const speed = (index + 1) * 0.1;
-        const yOffset = scrolled * speed;
-        // Combine the existing drift animation with the parallax offset
-        shape.style.top = `${(index * 20 + 15) - (yOffset / 10)}%`;
-    });
-
-    if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
 
 
-// Magnetic Elements Effect
-const magneticElements = document.querySelectorAll('.btn-modern, .social-icon-modern, .social-btn, .btn-primary, .nav-link, .project-card');
+// Magnetic Elements Effect (Optimized with instant translation & smooth snap back)
+const magneticElements = document.querySelectorAll('.btn-modern, .social-icon-modern, .social-btn, .btn-primary, .nav-link');
 
 magneticElements.forEach(item => {
     item.addEventListener('mousemove', function (e) {
@@ -216,11 +222,13 @@ magneticElements.forEach(item => {
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
 
-        this.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        this.style.transition = 'none'; // Instant follow
+        this.style.transform = `translate3d(${x * 0.3}px, ${y * 0.3}px, 0)`;
     });
 
     item.addEventListener('mouseleave', function (e) {
-        this.style.transform = `translate(0px, 0px)`;
+        this.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)'; // Smooth spring-back
+        this.style.transform = 'translate3d(0px, 0px, 0)';
     });
 });
 
