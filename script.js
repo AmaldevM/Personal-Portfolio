@@ -487,4 +487,49 @@ if (timeline && timelineProgress) {
     updateTimelineProgress();
 }
 
+// 3D Parallax Tilt Card Effect
+const projectCards = document.querySelectorAll('.project-card');
+projectCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        // Calculate pointer coordinates relative to card center (range -1 to 1)
+        const xVal = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const yVal = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        
+        // Define maximum tilt angle in degrees
+        const maxTilt = 6;
+        
+        // Calculate tilt rotation
+        const rotateX = -yVal * maxTilt;
+        const rotateY = xVal * maxTilt;
+        
+        // Apply 3D rotation and scale card slightly
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        
+        // Shift inner image container slightly opposite for parallax depth
+        const img = card.querySelector('.project-image');
+        if (img) {
+            img.style.transform = `translate3d(${-xVal * 6}px, ${-yVal * 6}px, 20px) scale(1.05)`;
+        }
+    });
+
+    card.addEventListener('mouseenter', () => {
+        card.classList.add('hovering');
+        const img = card.querySelector('.project-image');
+        if (img) img.classList.add('hovering');
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.classList.remove('hovering');
+        // Reset rotation and scale smoothly
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        
+        const img = card.querySelector('.project-image');
+        if (img) {
+            img.classList.remove('hovering');
+            img.style.transform = 'translate3d(0px, 0px, 20px) scale(1)';
+        }
+    });
+});
+
 
