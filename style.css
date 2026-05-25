@@ -838,7 +838,18 @@ section>* {
     top: 0;
     bottom: 0;
     width: 2px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.timeline-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 0%;
     background: var(--gradient-1);
+    box-shadow: 0 0 8px var(--accent-primary);
+    z-index: 1;
 }
 
 .timeline-item {
@@ -854,8 +865,17 @@ section>* {
     width: 18px;
     height: 18px;
     border-radius: 50%;
+    background: var(--bg-medium);
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 4px var(--bg-medium);
+    z-index: 2;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-dot.active {
     background: var(--accent-primary);
-    box-shadow: 0 0 0 4px var(--bg-medium), 0 0 0 6px var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 4px var(--bg-medium), 0 0 12px var(--accent-primary);
 }
 
 .experience-card {
@@ -1794,4 +1814,69 @@ section>* {
         flex-direction: column;
         text-align: center;
     }
+}
+
+/* Interactive Spotlight Grid Background */
+.spotlight-grid {
+    position: relative;
+}
+
+.spotlight-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center center;
+}
+
+.spotlight-grid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center center;
+    -webkit-mask-image: radial-gradient(circle 350px at var(--mouse-x, 0px) var(--mouse-y, 0px), black 0%, transparent 100%);
+    mask-image: radial-gradient(circle 350px at var(--mouse-x, 0px) var(--mouse-y, 0px), black 0%, transparent 100%);
+}
+
+.spotlight-grid .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Magnetic Button Interaction */
+.magnetic-btn, .nav-link, .nav-logo, .social-btn, .btn-primary-modern {
+    display: inline-block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.magnetic-btn.hovering, .nav-link.hovering, .nav-logo.hovering, .social-btn.hovering, .btn-primary-modern.hovering {
+    transition: none;
+}
+
+.magnetic-btn span, .magnetic-btn i,
+.nav-link span,
+.nav-logo span,
+.social-btn i,
+.btn-primary-modern span, .btn-primary-modern i {
+    display: inline-block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.magnetic-btn.hovering span, .magnetic-btn.hovering i,
+.nav-link.hovering span,
+.nav-logo.hovering span,
+.social-btn.hovering i,
+.btn-primary-modern.hovering span, .btn-primary-modern.hovering i {
+    transition: none;
 }

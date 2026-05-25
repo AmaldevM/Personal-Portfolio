@@ -424,4 +424,95 @@ interactiveElements.forEach(el => {
     el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovering'));
 });
 
+// Interactive Spotlight Grid Background Tracker
+const spotlightGrids = document.querySelectorAll('.spotlight-grid');
+spotlightGrids.forEach(grid => {
+    grid.addEventListener('mousemove', (e) => {
+        const rect = grid.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        grid.style.setProperty('--mouse-x', `${x}px`);
+        grid.style.setProperty('--mouse-y', `${y}px`);
+    });
+});
+
+// Magnetic Button Interaction Tracker
+const magneticElements = document.querySelectorAll('.magnetic-btn, .nav-link, .nav-logo, .social-btn, .btn-primary-modern');
+magneticElements.forEach(elem => {
+    elem.addEventListener('mousemove', (e) => {
+        const rect = elem.getBoundingClientRect();
+        // Calculate center of element
+        const elemX = rect.left + rect.width / 2;
+        const elemY = rect.top + rect.height / 2;
+        
+        // Offset between cursor and element center
+        const distanceX = e.clientX - elemX;
+        const distanceY = e.clientY - elemY;
+        
+        // Translate element towards cursor
+        const pullStrength = 0.3; // Limit overall movement
+        elem.style.transform = `translate(${distanceX * pullStrength}px, ${distanceY * pullStrength}px)`;
+        
+        // Inner content parallax effect (extra futuristic feel)
+        const innerText = elem.querySelector('span, i');
+        if (innerText) {
+            innerText.style.transform = `translate(${distanceX * 0.1}px, ${distanceY * 0.1}px)`;
+        }
+    });
+
+    elem.addEventListener('mouseenter', () => {
+        elem.classList.add('hovering');
+    });
+
+    elem.addEventListener('mouseleave', () => {
+        elem.classList.remove('hovering');
+        elem.style.transform = 'translate(0px, 0px)';
+        const innerText = elem.querySelector('span, i');
+        if (innerText) {
+            innerText.style.transform = 'translate(0px, 0px)';
+        }
+    });
+});
+
+// Glowing Experience Timeline Connector Progress
+const timeline = document.querySelector('.timeline');
+const timelineProgress = document.querySelector('.timeline-progress');
+const timelineDots = document.querySelectorAll('.timeline-dot');
+
+if (timeline && timelineProgress) {
+    const updateTimelineProgress = () => {
+        const rect = timeline.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // 70% of viewport triggers start of scroll progress
+        const startThreshold = viewportHeight * 0.7;
+        const totalPath = rect.height;
+        const currentProgressPos = startThreshold - rect.top;
+        
+        let progressPercent = 0;
+        if (currentProgressPos > 0) {
+            progressPercent = Math.min((currentProgressPos / totalPath) * 100, 100);
+        }
+        
+        timelineProgress.style.height = `${progressPercent}%`;
+        
+        // Highlight dot items as progress bar reaches their heights
+        timelineDots.forEach(dot => {
+            const dotRect = dot.getBoundingClientRect();
+            const dotPosRelativeToTimeline = dotRect.top - rect.top;
+            
+            if (currentProgressPos >= dotPosRelativeToTimeline) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    };
+    
+    window.addEventListener('scroll', updateTimelineProgress);
+    window.addEventListener('resize', updateTimelineProgress);
+    // Initial call in case experience is already visible on page load
+    updateTimelineProgress();
+}
+
 
