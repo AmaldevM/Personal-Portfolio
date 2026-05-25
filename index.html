@@ -40,7 +40,11 @@
   <!-- Preloader -->
   <div class="preloader">
     <div class="preloader-interactive">
-      <div data-us-project="dud5vJixg44anGFI9lgB" style="width: 100%; height: 100%"></div>
+      <div class="preloader-spinner-container">
+        <div class="preloader-spinner"></div>
+        <div class="preloader-text">Loading Experience</div>
+      </div>
+      <div data-us-project="dud5vJixg44anGFI9lgB" style="width: 100%; height: 100%; position: absolute; inset: 0; z-index: 1;"></div>
       <script
         type="text/javascript">!function () { var u = window.UnicornStudio; if (u && u.init) { if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", function () { u.init() }) } else { u.init() } } else { window.UnicornStudio = { isInitialized: !1 }; var i = document.createElement("script"); i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js", i.onload = function () { if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", function () { UnicornStudio.init() }) } else { UnicornStudio.init() } }, (document.head || document.body).appendChild(i) } }();</script>
     </div>
@@ -98,10 +102,10 @@
         <iframe src="https://www.unicorn.studio/embed/iyuIXA4M1cSrK6z6BR2S" width="100%" height="100%"
           style="border:none;" title="Interactive Experience"></iframe>
       </div>
-      <div class="hero-scroll-prompt">
+      <a href="#profile-summary" class="hero-scroll-prompt" aria-label="Scroll to Profile Overview" style="text-decoration: none;">
         <span>Discover More</span>
         <i class="fas fa-chevron-down"></i>
-      </div>
+      </a>
     </section>
 
     <!-- Profile Overview (Relocated Hero Content) -->
