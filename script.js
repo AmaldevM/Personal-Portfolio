@@ -149,9 +149,77 @@ function type() {
     setTimeout(type, typingSpeed);
 }
 
-// Start typing animation when page loads
+// Project Slider Functionality
+const initProjectSliders = () => {
+    const sliders = document.querySelectorAll('.project-slider');
+    
+    sliders.forEach(slider => {
+        const slides = slider.querySelectorAll('.slide');
+        const prevBtn = slider.querySelector('.prev-slide');
+        const nextBtn = slider.querySelector('.next-slide');
+        const dots = slider.querySelectorAll('.slider-dot');
+        
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        if (totalSlides === 0) return;
+        
+        const updateSlider = (index) => {
+            if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+            
+            slides.forEach((slide, i) => {
+                if (i === currentIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            dots.forEach((dot, i) => {
+                if (i === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        };
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateSlider(currentIndex - 1);
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateSlider(currentIndex + 1);
+            });
+        }
+        
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const index = parseInt(dot.getAttribute('data-index'), 10);
+                updateSlider(index);
+            });
+        });
+    });
+};
+
+// Start typing animation and slider when page loads
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(type, 500);
+    initProjectSliders();
 });
 
 // Form submission
@@ -178,12 +246,10 @@ contactForm.addEventListener('submit', (e) => {
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            // Add a small delay for staggered effect if requested
             const delay = entry.target.dataset.delay || 0;
             setTimeout(() => {
                 entry.target.classList.add('active');
             }, delay);
-            // Once revealed, no need to observe again
             revealObserver.unobserve(entry.target);
         }
     });
@@ -210,8 +276,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-
 
 // Magnetic Elements Effect (Optimized with instant translation & smooth snap back)
 const magneticElements = document.querySelectorAll('.btn-modern, .social-icon-modern, .social-btn, .btn-primary, .nav-link');
@@ -257,7 +321,6 @@ window.addEventListener('mousemove', (e) => {
 });
 
 function animateCursor() {
-    // Smooth easing for the outline
     const easing = 0.15;
     outlineX += (cursorX - outlineX) * easing;
     outlineY += (cursorY - outlineY) * easing;
