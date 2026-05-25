@@ -426,10 +426,21 @@
         </div>
         <div class="projects-grid">
           <div class="project-card card-featured reveal reveal-up" data-delay="100">
-            <div class="project-image">
-              <img src="assets/projects/tertius.png" alt="Tertius Integrity App - Dashboard">
-              <a href="https://github.com/AmaldevM" target="_blank" class="project-overlay">
-                <i class="fas fa-briefcase"></i>
+            <div class="project-image project-slider">
+              <div class="slider-wrapper">
+                <img src="assets/projects/tertius.png" alt="Tertius Integrity App - Dashboard" class="slide active">
+                <img src="assets/projects/tertius-login.png" alt="Tertius Integrity App - Login Screen" class="slide">
+              </div>
+              <div class="slider-controls">
+                <button class="slider-arrow prev-slide" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-arrow next-slide" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
+                <div class="slider-dots">
+                  <span class="slider-dot active" data-index="0"></span>
+                  <span class="slider-dot" data-index="1"></span>
+                </div>
+              </div>
+              <a href="https://tertius-integrity-ai-v1.vercel.app/" target="_blank" class="project-overlay">
+                <i class="fas fa-external-link-alt"></i>
               </a>
             </div>
             <div class="project-content">
