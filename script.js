@@ -349,7 +349,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Magnetic Elements Effect (Optimized with instant translation & smooth snap back)
-const magneticElements = document.querySelectorAll('.btn-modern, .social-icon-modern, .social-btn, .btn-primary, .nav-link');
+const magneticElements = document.querySelectorAll('.btn-modern, .social-icon-modern, .social-btn, .btn-primary, .nav-link, .nav-logo, .btn-primary-modern, .magnetic-btn');
 
 magneticElements.forEach(item => {
     item.addEventListener('mousemove', function (e) {
@@ -436,43 +436,6 @@ spotlightGrids.forEach(grid => {
     });
 });
 
-// Magnetic Button Interaction Tracker
-const magneticElements = document.querySelectorAll('.magnetic-btn, .nav-link, .nav-logo, .social-btn, .btn-primary-modern');
-magneticElements.forEach(elem => {
-    elem.addEventListener('mousemove', (e) => {
-        const rect = elem.getBoundingClientRect();
-        // Calculate center of element
-        const elemX = rect.left + rect.width / 2;
-        const elemY = rect.top + rect.height / 2;
-        
-        // Offset between cursor and element center
-        const distanceX = e.clientX - elemX;
-        const distanceY = e.clientY - elemY;
-        
-        // Translate element towards cursor
-        const pullStrength = 0.3; // Limit overall movement
-        elem.style.transform = `translate(${distanceX * pullStrength}px, ${distanceY * pullStrength}px)`;
-        
-        // Inner content parallax effect (extra futuristic feel)
-        const innerText = elem.querySelector('span, i');
-        if (innerText) {
-            innerText.style.transform = `translate(${distanceX * 0.1}px, ${distanceY * 0.1}px)`;
-        }
-    });
-
-    elem.addEventListener('mouseenter', () => {
-        elem.classList.add('hovering');
-    });
-
-    elem.addEventListener('mouseleave', () => {
-        elem.classList.remove('hovering');
-        elem.style.transform = 'translate(0px, 0px)';
-        const innerText = elem.querySelector('span, i');
-        if (innerText) {
-            innerText.style.transform = 'translate(0px, 0px)';
-        }
-    });
-});
 
 // Glowing Experience Timeline Connector Progress
 const timeline = document.querySelector('.timeline');
