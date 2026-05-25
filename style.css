@@ -955,6 +955,7 @@ section>* {
     opacity: 0;
     transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 2;
+    pointer-events: none;
 }
 
 .project-overlay i {
@@ -967,6 +968,7 @@ section>* {
 
 .project-card:hover .project-overlay {
     opacity: 1;
+    pointer-events: auto;
 }
 
 .project-card:hover .project-overlay i {
