@@ -949,20 +949,18 @@ section>* {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: var(--spacing-md) var(--spacing-md);
+    padding: 3vh var(--spacing-md);
 }
 
 .projects .section-header {
-    margin-bottom: 1.25rem;
+    margin-bottom: 2vh;
     flex-shrink: 0;
 }
 
 .projects-grid {
-    flex: 1;
-    min-height: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 31vh);
     gap: 1.25rem;
 }
 
