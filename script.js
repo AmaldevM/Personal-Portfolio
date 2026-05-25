@@ -20,8 +20,8 @@ window.addEventListener('load', () => {
         }, 800);
     };
 
-    // Auto-hide after 5 seconds
-    preloaderTimeout = setTimeout(hidePreloader, 5000);
+    // Auto-hide after 4 seconds
+    preloaderTimeout = setTimeout(hidePreloader, 4000);
 
     // Dismiss on click
     preloader.addEventListener('click', hidePreloader);
@@ -57,12 +57,26 @@ window.addEventListener('scroll', () => {
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
-        if (scrollY >= (sectionTop - 200)) {
+        if (window.scrollY >= (sectionTop - 200)) {
             current = section.getAttribute('id');
         }
     });
 
+    // Mappings for nested or supplementary sections
+    if (current === 'profile-summary') {
+        current = 'home';
+    } else if (current === 'education') {
+        current = 'experience';
+    }
+
     navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === current) {
+            link.classList.add('active');
+        }
+    });
+
+    mobileLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href').slice(1) === current) {
             link.classList.add('active');
@@ -218,6 +232,7 @@ let cursorX = 0;
 let cursorY = 0;
 let outlineX = 0;
 let outlineY = 0;
+let isCursorInitial = false;
 
 window.addEventListener('mousemove', (e) => {
     cursorX = e.clientX;
@@ -225,6 +240,12 @@ window.addEventListener('mousemove', (e) => {
 
     cursorDot.style.left = `${cursorX}px`;
     cursorDot.style.top = `${cursorY}px`;
+
+    if (!isCursorInitial) {
+        cursorDot.classList.add('visible');
+        cursorOutline.classList.add('visible');
+        isCursorInitial = true;
+    }
 });
 
 function animateCursor() {
@@ -239,6 +260,19 @@ function animateCursor() {
     requestAnimationFrame(animateCursor);
 }
 animateCursor();
+
+// Hide custom cursor when leaving window
+document.addEventListener('mouseleave', () => {
+    cursorDot.classList.remove('visible');
+    cursorOutline.classList.remove('visible');
+});
+
+document.addEventListener('mouseenter', () => {
+    if (isCursorInitial) {
+        cursorDot.classList.add('visible');
+        cursorOutline.classList.add('visible');
+    }
+});
 
 // Cursor Hover States
 const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card');
