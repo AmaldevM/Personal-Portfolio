@@ -1002,8 +1002,12 @@ section>* {
     grid-area: 1 / 4 / 2 / 5;
 }
 
-.card-wide {
-    grid-area: 2 / 3 / 3 / 5;
+.project-card:nth-of-type(4) {
+    grid-area: 2 / 3 / 3 / 4;
+}
+
+.project-card:nth-of-type(5) {
+    grid-area: 2 / 4 / 3 / 5;
 }
 
 .project-card:hover {
@@ -1140,10 +1144,7 @@ section>* {
         flex: none;
     }
 
-    .card-featured,
-    .card-wide,
-    .project-card:nth-of-type(2),
-    .project-card:nth-of-type(3) {
+    .project-card {
         grid-column: span 2;
         grid-row: auto;
         grid-area: auto;
@@ -1155,9 +1156,7 @@ section>* {
         grid-template-columns: 1fr;
     }
 
-    .card-featured,
-    .card-wide,
-    .card-standard {
+    .project-card {
         grid-column: span 1;
         grid-row: span 1;
     }
