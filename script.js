@@ -1,31 +1,3 @@
-// Preloader
-window.addEventListener('load', () => {
-    const preloader = document.querySelector('.preloader');
-    const mainContent = document.querySelector('.main-content');
-    let preloaderTimeout;
-
-    const hidePreloader = () => {
-        if (preloader.classList.contains('fade-out')) return;
-
-        clearTimeout(preloaderTimeout);
-        preloader.classList.add('fade-out');
-
-        // Start main content reveal slightly after preloader starts fading
-        setTimeout(() => {
-            mainContent.classList.add('reveal');
-        }, 100);
-
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 800);
-    };
-
-    // Auto-hide after 4 seconds
-    preloaderTimeout = setTimeout(hidePreloader, 4000);
-
-    // Dismiss on click
-    preloader.addEventListener('click', hidePreloader);
-});
 
 // Mobile Menu Functionality
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
