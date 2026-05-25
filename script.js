@@ -163,6 +163,8 @@ const initProjectSliders = () => {
         const totalSlides = slides.length;
         if (totalSlides === 0) return;
         
+        let autoSlideInterval;
+        
         const updateSlider = (index) => {
             if (index < 0) {
                 currentIndex = totalSlides - 1;
@@ -189,11 +191,32 @@ const initProjectSliders = () => {
             });
         };
         
+        const startAutoSlide = () => {
+            stopAutoSlide();
+            autoSlideInterval = setInterval(() => {
+                updateSlider(currentIndex + 1);
+            }, 3000); // Autoplay every 3 seconds
+        };
+        
+        const stopAutoSlide = () => {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+            }
+        };
+        
+        // Start auto slide
+        startAutoSlide();
+        
+        // Pause auto slide on hover
+        slider.addEventListener('mouseenter', stopAutoSlide);
+        slider.addEventListener('mouseleave', startAutoSlide);
+        
         if (prevBtn) {
             prevBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 updateSlider(currentIndex - 1);
+                startAutoSlide(); // Reset timer
             });
         }
         
@@ -202,6 +225,7 @@ const initProjectSliders = () => {
                 e.preventDefault();
                 e.stopPropagation();
                 updateSlider(currentIndex + 1);
+                startAutoSlide(); // Reset timer
             });
         }
         
@@ -211,8 +235,55 @@ const initProjectSliders = () => {
                 e.stopPropagation();
                 const index = parseInt(dot.getAttribute('data-index'), 10);
                 updateSlider(index);
+                startAutoSlide(); // Reset timer
             });
         });
+        
+        // Add swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let isSwiping = false;
+        
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            isSwiping = false;
+            stopAutoSlide();
+        }, { passive: true });
+        
+        slider.addEventListener('touchmove', () => {
+            isSwiping = true;
+        }, { passive: true });
+        
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (isSwiping) {
+                handleSwipe();
+            }
+            startAutoSlide();
+        }, { passive: true });
+        
+        const handleSwipe = () => {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe Left -> Next Slide
+                updateSlider(currentIndex + 1);
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe Right -> Prev Slide
+                updateSlider(currentIndex - 1);
+            }
+        };
+        
+        // Prevent link click if a swipe gesture just occurred
+        const overlay = slider.querySelector('.project-overlay');
+        if (overlay) {
+            overlay.addEventListener('click', (e) => {
+                if (isSwiping) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    isSwiping = false;
+                }
+            });
+        }
     });
 };
 
