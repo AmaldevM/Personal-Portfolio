@@ -959,7 +959,7 @@ section>* {
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, minmax(260px, 1fr));
+    grid-template-rows: repeat(2, minmax(280px, 1fr));
     gap: 1.5rem;
 }
 
@@ -1005,8 +1005,6 @@ section>* {
     height: 100%;
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    /* Allow card to shrink in flex grid */
 }
 
 /* Bento Card Sizes */
@@ -1035,11 +1033,44 @@ section>* {
 
 .project-image {
     position: relative;
-    flex: 9;
-    /* Give most of the room to the image */
+    width: 100%;
+    height: 150px; /* Default height for standard cards */
+    flex: none;
     overflow: hidden;
     background: #111;
-    min-height: 80px;
+}
+
+.card-featured .project-image {
+    height: 330px; /* Taller image for featured card */
+}
+
+@media (min-width: 1025px) {
+    .card-wide {
+        flex-direction: row;
+    }
+    .card-wide .project-image {
+        width: 45%;
+        height: 100%;
+        flex: none;
+    }
+    .card-wide .project-content {
+        width: 55%;
+        height: 100%;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .card-wide .project-description {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        line-clamp: 3;
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-secondary);
+        overflow: hidden;
+    }
 }
 
 /* Improved framing for featured dashboads and wide collages */
@@ -1061,41 +1092,42 @@ section>* {
 }
 
 .project-content {
-    padding: 0.5rem 0.75rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
+    flex: 1;
+    justify-content: space-between;
 }
 
 .project-title {
     font-size: 1.25rem;
-    margin-bottom: 0.15rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Standard cards hide description to save room for thumbnails */
-.card-standard .project-description,
-.card-wide .project-description {
-    display: none;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
 }
 
 .project-description {
     color: var(--text-secondary);
-    margin-bottom: 0.25rem;
-    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    line-clamp: 1;
+    line-clamp: 2;
     overflow: hidden;
+}
+
+.card-featured .project-description {
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
 }
 
 .project-tech {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-top: auto;
 }
 
 .tech-badge {
