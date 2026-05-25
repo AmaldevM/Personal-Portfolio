@@ -111,6 +111,37 @@
     animation: slideInLeft 0.8s ease;
 }
 
+.hero-name-large .hover-letter {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+    cursor: default;
+}
+
+.hero-name-large .hover-letter:hover {
+    transform: translateY(-6px) scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+}
+
+.hero-name-large .accent {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.hero-name-large .accent:hover {
+    animation: accentPulse 0.8s ease infinite alternate;
+}
+
+@keyframes accentPulse {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 2px var(--accent-color));
+    }
+    100% {
+        transform: scale(1.6);
+        filter: drop-shadow(0 0 8px var(--accent-color));
+    }
+}
+
 .hero-title-large {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     font-weight: 600;

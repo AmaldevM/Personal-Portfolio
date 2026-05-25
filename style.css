@@ -777,12 +777,13 @@ section>* {
     padding: var(--spacing-md);
     border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all var(--transition-normal);
+    transition: all var(--transition-normal), box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
 .skill-category:hover {
     transform: translateY(-5px);
     border-color: var(--accent-primary);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
 }
 
 .category-title {
@@ -791,6 +792,11 @@ section>* {
     gap: 0.75rem;
     margin-bottom: var(--spacing-md);
     color: var(--accent-primary);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-category:hover .category-title {
+    transform: translateX(8px);
 }
 
 .skill-tags {
@@ -914,6 +920,7 @@ section>* {
 
 /* Projects Bento Grid */
 .projects {
+    position: relative;
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
@@ -921,7 +928,50 @@ section>* {
     align-items: center;
 }
 
+/* Kinetic Watermark Background */
+.projects-watermark {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 0.03;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.watermark-track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: watermarkMarquee 40s linear infinite;
+}
+
+.watermark-track span {
+    display: inline-block;
+    font-size: clamp(8rem, 15vw, 16rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    padding-right: 4rem;
+}
+
+@keyframes watermarkMarquee {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
 .projects .container {
+    position: relative;
+    z-index: 2;
     height: 100%;
     width: 100%;
     max-width: 1400px;
@@ -1328,6 +1378,45 @@ section>* {
 
 .education-description {
     color: var(--text-secondary);
+}
+
+/* Premium Contact Header */
+.contact-header-premium {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    line-height: 1.15;
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    font-weight: 800 !important;
+    margin-top: 0.5rem;
+}
+
+.contact-header-premium .block-line {
+    display: block;
+}
+
+.contact-header-premium .line-outline {
+    color: var(--text-primary);
+    transition: all 0.4s ease;
+}
+
+.contact-header-premium .line-outline:hover {
+    color: transparent;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.contact-header-premium .text-gradient {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* Contact */
