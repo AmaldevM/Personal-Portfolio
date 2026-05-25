@@ -1891,7 +1891,7 @@ section>* {
 /* Cyberpunk Glitch Text Effect */
 .glitch-text {
     position: relative;
-    display: inline-block;
+    display: block;
 }
 
 .glitch-text::before,
