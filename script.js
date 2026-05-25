@@ -1,31 +1,34 @@
 // Preloader
-window.addEventListener('load', () => {
-    const preloader = document.querySelector('.preloader');
-    const mainContent = document.querySelector('.main-content');
-    let preloaderTimeout;
+const preloader = document.querySelector('.preloader');
+const mainContent = document.querySelector('.main-content');
+let preloaderTimeout;
 
-    const hidePreloader = () => {
-        if (preloader.classList.contains('fade-out')) return;
+const hidePreloader = () => {
+    if (!preloader || preloader.classList.contains('fade-out')) return;
 
-        clearTimeout(preloaderTimeout);
-        preloader.classList.add('fade-out');
+    clearTimeout(preloaderTimeout);
+    preloader.classList.add('fade-out');
 
-        // Start main content reveal slightly after preloader starts fading
-        setTimeout(() => {
-            mainContent.classList.add('reveal');
-        }, 100);
+    // Start main content reveal slightly after preloader starts fading
+    setTimeout(() => {
+        if (mainContent) mainContent.classList.add('reveal');
+    }, 100);
 
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 800);
-    };
+    setTimeout(() => {
+        preloader.style.display = 'none';
+    }, 800);
+};
 
-    // Auto-hide after 4 seconds
-    preloaderTimeout = setTimeout(hidePreloader, 4000);
+// Dismiss when page is fully loaded
+window.addEventListener('load', hidePreloader);
 
-    // Dismiss on click
+// Auto-hide after 3 seconds (fail-safe in case load event takes too long or hangs)
+preloaderTimeout = setTimeout(hidePreloader, 3000);
+
+// Dismiss immediately on click
+if (preloader) {
     preloader.addEventListener('click', hidePreloader);
-});
+}
 
 // Mobile Menu Functionality
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
