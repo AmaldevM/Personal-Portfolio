@@ -1,7 +1,7 @@
 // Preloader with minimum display time
 const preloader = document.querySelector('.preloader');
 const mainContent = document.querySelector('.main-content');
-const minLoadingTime = 2200; // Show preloader for at least 2.2 seconds
+const minLoadingTime = 4000; // Show preloader for at least 4 seconds
 const startTime = Date.now();
 let preloaderTimeout;
 
@@ -28,8 +28,8 @@ const hidePreloader = (force = false) => {
 // Dismiss when page is fully loaded (respecting min display time)
 window.addEventListener('load', () => hidePreloader(false));
 
-// Fallback auto-hide after 5 seconds if load event hangs
-preloaderTimeout = setTimeout(() => hidePreloader(false), 5000);
+// Fallback auto-hide after 8 seconds if load event hangs
+preloaderTimeout = setTimeout(() => hidePreloader(false), 8000);
 
 // Dismiss immediately on click (if user wants to skip)
 if (preloader) {
