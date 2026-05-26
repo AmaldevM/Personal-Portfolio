@@ -204,10 +204,10 @@ requestAnimationFrame(animate);
 // Typing animation with dynamic colors & neon glow
 const typingText = document.querySelector('.typing-text');
 const titles = [
-    { text: 'Software Engineer', color: '#00f0ff', glow: 'rgba(0, 240, 255, 0.4)' },
-    { text: 'Digital Creator', color: '#ff6b00', glow: 'rgba(255, 107, 0, 0.4)' },
-    { text: 'Full Stack Developer', color: '#b55fe6', glow: 'rgba(181, 95, 230, 0.4)' },
-    { text: 'System Architect', color: '#10b981', glow: 'rgba(16, 185, 129, 0.4)' }
+    { text: 'Engineer', color: '#00f0ff', glow: 'rgba(0, 240, 255, 0.4)' },
+    { text: 'Creator', color: '#ff6b00', glow: 'rgba(255, 107, 0, 0.4)' },
+    { text: 'Developer', color: '#b55fe6', glow: 'rgba(181, 95, 230, 0.4)' },
+    { text: 'Architect', color: '#10b981', glow: 'rgba(16, 185, 129, 0.4)' }
 ];
 
 let titleIndex = 0;
