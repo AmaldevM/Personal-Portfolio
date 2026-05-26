@@ -113,10 +113,10 @@
 }
 
 .mora-role-typing {
-    font-size: 1.55rem;
-    font-weight: 600;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    font-weight: 700;
     color: var(--text-secondary);
-    min-height: 2.2rem;
+    min-height: 3.2rem;
     display: flex;
     align-items: center;
 }
@@ -359,7 +359,7 @@
     }
 
     .mora-role-typing {
-        font-size: 1.1rem;
+        font-size: 1.5rem;
     }
 
     .mora-badges-grid {
