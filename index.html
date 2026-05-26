@@ -8,15 +8,16 @@
     content="Amaldev M - Junior Full Stack Developer specializing in Angular, Spring Boot, React.js, and modern web technologies">
   <title>Amaldev M | Full Stack Developer</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
   <link rel="stylesheet" href="hero-modern.css">
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 </head>
 
 <body>
@@ -108,67 +109,62 @@
       </a>
     </section>
 
-    <!-- Profile Overview (Relocated Hero Content) -->
+    <!-- Profile Overview (Restructured Juan-Mora Style) -->
     <section class="section profile-overview reveal reveal-up spotlight-grid" id="profile-summary">
-      <div class="container">
-        <div class="profile-overview-main">
-          <div class="hero-content-left reveal reveal-left" data-delay="200">
-            <span class="hero-greeting">Hi, I'm</span>
-            <h1 class="hero-name-large">
-              <span class="hover-letter">A</span><span class="hover-letter">M</span><span class="hover-letter">A</span><span class="hover-letter">L</span><span class="hover-letter">D</span><span class="hover-letter">E</span><span class="hover-letter">V</span><span class="accent">.</span><span class="hover-letter">M</span>
-            </h1>
-            <h2 class="hero-title-large">
-              <span class="typing-text"></span>
-              <span class="cursor">|</span>
-            </h2>
-            <p class="hero-description-new">
-              Passionate Full Stack Developer eager to build elegant web experiences with Angular, React, Spring Boot,
-              and
-              modern
-              web technologies.
-            </p>
+      <div class="mora-container">
+        <!-- Floating Margins Left -->
+        <div class="mora-text-block block-left">
+          <span class="mora-greeting">Hi, I'm</span>
+          <h1 class="mora-name-title">Amaldev M</h1>
+          <h2 class="mora-role-typing">
+            <span class="typing-text"></span>
+            <span class="cursor">|</span>
+          </h2>
+          <div class="mora-email-display">
+            <i class="fas fa-envelope"></i>
+            <span>amaldevm.dev@gmail.com</span>
+          </div>
+        </div>
 
-            <div class="hero-badges">
-              <div class="stat-badge">
-                <div class="badge-icon">📁</div>
-                <div class="badge-info">
-                  <span class="badge-number">10+</span>
-                  <span class="badge-label">Projects</span>
-                </div>
-              </div>
-              <div class="stat-badge">
-                <div class="badge-icon">💼</div>
-                <div class="badge-info">
-                  <span class="badge-number">4</span>
-                  <span class="badge-label">Internships</span>
-                </div>
-              </div>
-              <div class="stat-badge">
-                <div class="badge-icon">⚡</div>
-                <div class="badge-info">
-                  <span class="badge-number">1+</span>
-                  <span class="badge-label">Year Exp</span>
-                </div>
-              </div>
+        <!-- Floating Margins Right -->
+        <div class="mora-text-block block-right">
+          <p class="mora-description">
+            Passionate Full Stack Developer eager to build elegant web experiences with Angular, React, Spring Boot, and modern web technologies.
+          </p>
+          <div class="mora-badges-grid">
+            <div class="mora-badge">
+              <span class="badge-num">10+</span>
+              <span class="badge-lbl">Projects</span>
             </div>
-
-            <div class="hero-cta">
-              <a href="#contact" class="btn-modern btn-primary-modern">
-                <span>Get In Touch</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
+            <div class="mora-badge">
+              <span class="badge-num">4</span>
+              <span class="badge-lbl">Internships</span>
+            </div>
+            <div class="mora-badge">
+              <span class="badge-num">1+</span>
+              <span class="badge-lbl">Year Exp</span>
             </div>
           </div>
+          <div class="mora-cta-btn">
+            <a href="#contact" class="btn-modern btn-primary-modern">
+              <span>Get In Touch</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
 
-          <div class="hero-content-right">
-            <div class="profile-showcase">
-              <div class="profile-main-image">
-                <img src="profile.png" alt="Amaldev M" class="profile-img">
-              </div>
-              <div class="profile-email-badge">
-                <i class="fas fa-envelope"></i>
-                <span>amaldevm.dev@gmail.com</span>
-              </div>
+        <!-- Giant Background Typography (Translates Horizontally on Scroll) -->
+        <div class="mora-split-text">
+          <div class="split-part part-left">AMAL</div>
+          <div class="split-part part-right">DEV</div>
+        </div>
+
+        <!-- Centered Interactive 3D Card -->
+        <div class="mora-card-perspective">
+          <div class="mora-profile-card">
+            <div class="mora-card-inner">
+              <img src="profile.png" alt="Amaldev M" class="mora-img">
+              <div class="mora-card-shimmer"></div>
             </div>
           </div>
         </div>
@@ -689,7 +685,7 @@
 
       <!-- Main Scripts -->
       <script src="mouse-trail.js"></script>
-      <script src="script.js?v=5"></script>
+      <script src="script.js?v=6"></script>
   </div>
 </body>
 

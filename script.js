@@ -45,7 +45,13 @@ const navLinks = document.querySelectorAll('.nav-link');
 const toggleMenu = () => {
     mobileMenuBtn.classList.toggle('active');
     mobileMenu.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    if (mobileMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+        if (typeof lenis !== 'undefined') lenis.stop();
+    } else {
+        document.body.style.overflow = '';
+        if (typeof lenis !== 'undefined') lenis.start();
+    }
 };
 
 mobileMenuBtn.addEventListener('click', toggleMenu);
@@ -55,70 +61,145 @@ mobileLinks.forEach(link => {
         mobileMenuBtn.classList.remove('active');
         mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
+        if (typeof lenis !== 'undefined') lenis.start();
     });
 });
 
 // Active nav link, navbar styling, and 3D shapes parallax on scroll (Unified & requestAnimationFrame optimized)
 const navbar = document.getElementById('navbar');
 const shapes = document.querySelectorAll('.floating-shape');
-let scrollTicking = false;
 
-window.addEventListener('scroll', () => {
-    if (!scrollTicking) {
-        window.requestAnimationFrame(() => {
-            const scrolled = window.scrollY;
-
-            // 1. Navbar scrolled state
-            if (scrolled > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-
-            // 2. Parallax shapes CSS variables update
-            shapes.forEach((shape, index) => {
-                const speed = (index + 1) * 0.15;
-                const yOffset = scrolled * speed;
-                shape.style.setProperty('--parallax-y', `${-yOffset}px`);
-            });
-
-            // 3. Scroll spy active section selection
-            let current = '';
-            const sections = document.querySelectorAll('section');
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrolled >= (sectionTop - 220)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            if (current === 'profile-summary') {
-                current = 'home';
-            } else if (current === 'education') {
-                current = 'experience';
-            }
-
-            // 4. Update desktop & mobile nav link active classes
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-
-            mobileLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-
-            scrollTicking = false;
-        });
-        scrollTicking = true;
-    }
+// Initialize Lenis smooth scroll
+const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    smoothTouch: false
 });
+
+// Update Lenis scroll callback
+lenis.on('scroll', (e) => {
+    const scrolled = e.scroll;
+
+    // 1. Navbar scrolled state
+    if (scrolled > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+
+    // 2. Parallax shapes CSS variables update (flat background shapes)
+    shapes.forEach((shape, index) => {
+        const speed = (index + 1) * 0.15;
+        const yOffset = scrolled * speed;
+        shape.style.setProperty('--parallax-y', `${-yOffset}px`);
+    });
+
+    // 3. Scroll spy active section selection
+    let current = '';
+    const sections = document.querySelectorAll('section');
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrolled >= (sectionTop - 220)) {
+            current = section.getAttribute('id');
+        }
+    });
+
+    if (current === 'profile-summary') {
+        current = 'home';
+    } else if (current === 'education') {
+        current = 'experience';
+    }
+
+    // 4. Update desktop & mobile nav link active classes
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === current) {
+            link.classList.add('active');
+        }
+    });
+
+    mobileLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Mora-Style Typography Split & 3D Card Animation Hookup
+const profileSection = document.getElementById('profile-summary');
+const splitPartLeft = document.querySelector('.part-left');
+const splitPartRight = document.querySelector('.part-right');
+const cardPerspective = document.querySelector('.mora-card-perspective');
+const profileCard = document.querySelector('.mora-profile-card');
+
+let targetRotX = 0;
+let targetRotY = 0;
+let currentRotX = 0;
+let currentRotY = 0;
+const lerpFactor = 0.08;
+
+if (cardPerspective && profileCard) {
+    cardPerspective.addEventListener('mousemove', (e) => {
+        const rect = cardPerspective.getBoundingClientRect();
+        // Calculate pointer coordinates relative to card center (range -1 to 1)
+        const xVal = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const yVal = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        
+        const maxTilt = 12; // Maximum tilt angle in degrees
+        targetRotX = -yVal * maxTilt;
+        targetRotY = xVal * maxTilt;
+    });
+
+    cardPerspective.addEventListener('mouseleave', () => {
+        targetRotX = 0;
+        targetRotY = 0;
+    });
+}
+
+// Unified requestAnimationFrame loop for Lenis and Mora-style scroll/tilt effects
+function animate(time) {
+    lenis.raf(time);
+
+    const scrolled = lenis.scroll || window.scrollY;
+    const viewportHeight = window.innerHeight;
+
+    // 1. Text-Splitting Scroll Parallax
+    if (profileSection) {
+        const sectionTop = profileSection.offsetTop;
+        const sectionHeight = profileSection.offsetHeight;
+
+        if (scrolled + viewportHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
+            // Relative scroll offset starting when the section enters the screen
+            const relativeScroll = scrolled + viewportHeight - sectionTop;
+            const splitAmount = relativeScroll * 0.35; // Adjust split speed
+
+            if (splitPartLeft && splitPartRight) {
+                splitPartLeft.style.transform = `translateX(-${splitAmount}px) translateZ(0)`;
+                splitPartRight.style.transform = `translateX(${splitAmount}px) translateZ(0)`;
+            }
+
+            // Slow vertical drift for the card wrapper
+            if (cardPerspective) {
+                const cardParallax = (scrolled - sectionTop) * -0.15;
+                cardPerspective.style.transform = `translateY(${cardParallax}px)`;
+            }
+        }
+    }
+
+    // 2. Smooth LERP interpolation for 3D card tilt
+    if (profileCard) {
+        currentRotX += (targetRotX - currentRotX) * lerpFactor;
+        currentRotY += (targetRotY - currentRotY) * lerpFactor;
+        profileCard.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
+    }
+
+    requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
 
 // Typing animation with dynamic colors & neon glow
 const typingText = document.querySelector('.typing-text');
@@ -356,9 +437,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+            lenis.scrollTo(target, {
+                offset: 0,
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
             });
         }
     });
