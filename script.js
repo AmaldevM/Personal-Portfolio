@@ -384,10 +384,135 @@ const initProjectSliders = () => {
     });
 };
 
+// Highlights Carousel Functionality
+const initHighlightsSliders = () => {
+    const carousels = document.querySelectorAll('.highlight-carousel');
+    
+    carousels.forEach(carousel => {
+        const slides = carousel.querySelectorAll('.highlight-slide');
+        const prevBtn = carousel.querySelector('.carousel-nav.prev');
+        const nextBtn = carousel.querySelector('.carousel-nav.next');
+        const dots = carousel.querySelectorAll('.carousel-dot');
+        
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        if (totalSlides === 0) return;
+        
+        let autoSlideInterval;
+        
+        const updateCarousel = (index) => {
+            if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+            
+            slides.forEach((slide, i) => {
+                if (i === currentIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            dots.forEach((dot, i) => {
+                if (i === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        };
+        
+        const startAutoSlide = () => {
+            stopAutoSlide();
+            autoSlideInterval = setInterval(() => {
+                updateCarousel(currentIndex + 1);
+            }, 4500);
+        };
+        
+        const stopAutoSlide = () => {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+            }
+        };
+        
+        // Start auto slide initially
+        startAutoSlide();
+        
+        // Pause auto slide on hover
+        carousel.addEventListener('mouseenter', stopAutoSlide);
+        carousel.addEventListener('mouseleave', startAutoSlide);
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateCarousel(currentIndex - 1);
+                startAutoSlide();
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                updateCarousel(currentIndex + 1);
+                startAutoSlide();
+            });
+        }
+        
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const index = parseInt(dot.getAttribute('data-index'), 10);
+                updateCarousel(index);
+                startAutoSlide();
+            });
+        });
+        
+        // Add swipe support for mobile devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let isSwiping = false;
+        
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            isSwiping = false;
+            stopAutoSlide();
+        }, { passive: true });
+        
+        carousel.addEventListener('touchmove', () => {
+            isSwiping = true;
+        }, { passive: true });
+        
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (isSwiping) {
+                handleSwipe();
+            }
+            startAutoSlide();
+        }, { passive: true });
+        
+        const handleSwipe = () => {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                updateCarousel(currentIndex + 1);
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                updateCarousel(currentIndex - 1);
+            }
+        };
+    });
+};
+
 // Start typing animation and slider when page loads
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(type, 500);
     initProjectSliders();
+    initHighlightsSliders();
 });
 
 // Form submission
@@ -515,7 +640,7 @@ document.addEventListener('mouseenter', () => {
 });
 
 // Cursor Hover States
-const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card');
+const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge');
 
 interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovering'));
