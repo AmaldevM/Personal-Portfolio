@@ -494,6 +494,7 @@ body {
 
 .typing-text {
     color: var(--accent-primary);
+    transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
 }
 
 .cursor {

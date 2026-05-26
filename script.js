@@ -120,13 +120,13 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Typing animation
+// Typing animation with dynamic colors & neon glow
 const typingText = document.querySelector('.typing-text');
 const titles = [
-    'Full Stack Developer',
-    'Angular Developer',
-    'React Developer',
-    'Spring Boot Developer'
+    { text: 'Software Engineer', color: '#00f0ff', glow: 'rgba(0, 240, 255, 0.4)' },
+    { text: 'Digital Creator', color: '#ff6b00', glow: 'rgba(255, 107, 0, 0.4)' },
+    { text: 'Full Stack Developer', color: '#b55fe6', glow: 'rgba(181, 95, 230, 0.4)' },
+    { text: 'System Architect', color: '#10b981', glow: 'rgba(16, 185, 129, 0.4)' }
 ];
 
 let titleIndex = 0;
@@ -135,18 +135,25 @@ let isDeleting = false;
 
 function type() {
     const currentTitle = titles[titleIndex];
+    const textToShow = currentTitle.text;
+
+    // Apply role-specific theme colors
+    if (typingText) {
+        typingText.style.color = currentTitle.color;
+        typingText.style.textShadow = `0 0 10px ${currentTitle.glow}, 0 0 20px ${currentTitle.glow}`;
+    }
 
     if (isDeleting) {
-        typingText.textContent = currentTitle.substring(0, charIndex - 1);
+        typingText.textContent = textToShow.substring(0, charIndex - 1);
         charIndex--;
     } else {
-        typingText.textContent = currentTitle.substring(0, charIndex + 1);
+        typingText.textContent = textToShow.substring(0, charIndex + 1);
         charIndex++;
     }
 
     let typingSpeed = isDeleting ? 50 : 100;
 
-    if (!isDeleting && charIndex === currentTitle.length) {
+    if (!isDeleting && charIndex === textToShow.length) {
         typingSpeed = 2000;
         isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
