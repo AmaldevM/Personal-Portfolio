@@ -4,7 +4,7 @@ I’m Amaldev M, a BCA graduate and Junior Full Stack Developer with hands-on ex
 
 **Amaldev M**
 - Email: amaldevm.dev@gmail.com
-- Phone: 6282237472
+- Phone: 6282437472
 - Location: Malappuram, Kerala
 
 ---
