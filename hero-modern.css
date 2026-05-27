@@ -688,3 +688,13 @@
         gap: 1.25rem;
     }
 }
+
+/* Optimize navbar spacing on small desktops to prevent layout wrap */
+@media (min-width: 969px) and (max-width: 1120px) {
+    .nav-links {
+        gap: 1.25rem;
+    }
+    .nav-link {
+        font-size: 0.875rem;
+    }
+}
