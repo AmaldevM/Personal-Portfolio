@@ -640,7 +640,7 @@ document.addEventListener('mouseenter', () => {
 });
 
 // Cursor Hover States
-const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge');
+const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge, .cert-card');
 
 interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovering'));
