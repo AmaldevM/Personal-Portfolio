@@ -926,3 +926,76 @@
         gap: 1.25rem;
     }
 }
+
+/* ==================== EXPERIENCE LINKS & DUAL CERT FOOTER ==================== */
+
+/* Experience Certificate/Letter Links */
+.experience-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.experience-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.03);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+}
+
+.experience-link:hover {
+    color: #0c0a0f;
+    background: #4ade80;
+    border-color: #4ade80;
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+    transform: translateY(-2px);
+}
+
+.experience-link i {
+    font-size: 0.85rem;
+}
+
+/* Accent Theme (Purple for other cards like Tertius/Entri) */
+.experience-link.accent-theme {
+    color: var(--accent-primary);
+    background: rgba(200, 100, 255, 0.03);
+    border: 1px solid rgba(200, 100, 255, 0.2);
+}
+
+.experience-link.accent-theme:hover {
+    color: #ffffff;
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 10px rgba(200, 100, 255, 0.4);
+}
+
+/* Dual Action Buttons in Certifications Grid */
+.cert-footer-double {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.cert-footer-double .btn-cert {
+    flex: 1;
+    font-size: 0.775rem;
+    padding: 0.5rem 0.25rem;
+}
+
+@media (max-width: 360px) {
+    .cert-footer-double {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+    .cert-footer-double .btn-cert {
+        width: 100%;
+    }
+}
