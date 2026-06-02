@@ -1188,21 +1188,22 @@ section>* {
     .card-wide .project-image {
         width: 45%;
         height: 100%;
+        aspect-ratio: auto;
         flex: none;
     }
     .card-wide .project-content {
         width: 55%;
         height: 100%;
-        padding: 1.25rem;
+        padding: 1.5rem;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
     }
     .card-wide .project-description {
         display: -webkit-box !important;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
-        line-clamp: 2;
+        line-clamp: 3;
         font-size: 0.8rem;
         margin-bottom: 0.5rem;
         color: var(--text-secondary);
