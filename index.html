@@ -525,8 +525,21 @@
           </div>
 
           <div class="project-card card-standard reveal reveal-up" data-delay="300">
-            <div class="project-image">
-              <img src="assets/projects/flaveme.jpg" alt="FlaveMe - Food Ordering Platform">
+            <div class="project-image project-slider">
+              <div class="slider-wrapper">
+                <img src="assets/projects/flaveme-1.png" alt="FlaveMe - Food Ordering Platform Hero" class="slide active">
+                <img src="assets/projects/flaveme-2.png" alt="FlaveMe - Chef Specials" class="slide">
+                <img src="assets/projects/flaveme-3.png" alt="FlaveMe - Menu Selection" class="slide">
+              </div>
+              <div class="slider-controls">
+                <button class="slider-arrow prev-slide" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-arrow next-slide" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
+                <div class="slider-dots">
+                  <span class="slider-dot active" data-index="0"></span>
+                  <span class="slider-dot" data-index="1"></span>
+                  <span class="slider-dot" data-index="2"></span>
+                </div>
+              </div>
               <a href="https://flaveme-food-ordering-website.vercel.app/" target="_blank" class="project-overlay">
                 <i class="fas fa-utensils"></i>
               </a>
