@@ -639,12 +639,127 @@ document.addEventListener('mouseenter', () => {
     }
 });
 
-// Cursor Hover States
-const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge, .cert-card');
+// SFX Audio System using Web Audio API
+let audioCtx = null;
+let isMuted = localStorage.getItem('sfx_muted') === 'true';
+
+const initAudio = () => {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+};
+
+const playHoverSound = () => {
+    if (isMuted) return;
+    try {
+        initAudio();
+        if (!audioCtx || audioCtx.state === 'suspended') return;
+
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc.type = 'sine';
+        const now = audioCtx.currentTime;
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(1000, now + 0.05);
+
+        gainNode.gain.setValueAtTime(0.012, now); // Very quiet and subtle
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+        osc.start(now);
+        osc.stop(now + 0.05);
+    } catch (e) {}
+};
+
+const playClickSound = () => {
+    if (isMuted) return;
+    try {
+        initAudio();
+        if (!audioCtx || audioCtx.state === 'suspended') return;
+
+        const now = audioCtx.currentTime;
+        
+        // Low pop body
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'triangle';
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        
+        osc1.frequency.setValueAtTime(120, now);
+        osc1.frequency.exponentialRampToValueAtTime(60, now + 0.08);
+        
+        gain1.gain.setValueAtTime(0.06, now);
+        gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+        
+        osc1.start(now);
+        osc1.stop(now + 0.08);
+
+        // High click tick
+        const osc2 = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.type = 'sine';
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+        
+        osc2.frequency.setValueAtTime(1200, now);
+        osc2.frequency.exponentialRampToValueAtTime(1800, now + 0.02);
+        
+        gain2.gain.setValueAtTime(0.025, now);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
+        
+        osc2.start(now);
+        osc2.stop(now + 0.02);
+    } catch (e) {}
+};
+
+// Cursor Hover States & SFX Triggering
+const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge, .cert-card, .experience-link, .btn-cert, .sound-toggle');
 
 interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovering'));
+    el.addEventListener('mouseenter', () => {
+        cursorOutline.classList.add('hovering');
+        playHoverSound();
+    });
     el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovering'));
+});
+
+// Global Click SFX Listener
+window.addEventListener('click', (e) => {
+    if (e.target.closest('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge, .cert-card, .experience-link, .btn-cert, .sound-toggle')) {
+        playClickSound();
+    }
+});
+
+// Sound Toggle Button Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const soundToggle = document.getElementById('soundToggle');
+    if (soundToggle) {
+        if (isMuted) {
+            soundToggle.classList.add('muted');
+        }
+        
+        soundToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            isMuted = !isMuted;
+            localStorage.setItem('sfx_muted', isMuted);
+            
+            if (isMuted) {
+                soundToggle.classList.add('muted');
+            } else {
+                soundToggle.classList.remove('muted');
+                playClickSound();
+            }
+        });
+    }
 });
 
 // Interactive Spotlight Grid Background Tracker

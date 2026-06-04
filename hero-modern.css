@@ -998,4 +998,47 @@
     .cert-footer-double .btn-cert {
         width: 100%;
     }
-}
+}
+
+/* Floating Sound Toggle Button */
+.sound-toggle {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(20, 16, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all var(--transition-normal);
+}
+
+.sound-toggle:hover {
+    border-color: var(--accent-primary);
+    background: rgba(200, 100, 255, 0.08);
+    box-shadow: 0 0 15px rgba(200, 100, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* FontAwesome icon change when muted */
+.sound-toggle.muted i::before {
+    content: "\f6a9"; /* FontAwesome fa-volume-mute */
+}
+
+@media (max-width: 768px) {
+    .sound-toggle {
+        bottom: 1.5rem;
+        left: 1.5rem;
+        width: 42px;
+        height: 42px;
+    }
+}
+
