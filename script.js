@@ -639,56 +639,31 @@ document.addEventListener('mouseenter', () => {
     }
 });
 
-// SFX Audio System (Custom WAV Files & Web Audio API synthesis)
-let audioCtx = null;
+// SFX Audio System (Custom Audio Files)
 let isMuted = localStorage.getItem('sfx_muted') === 'true';
 
 // Load custom audio files
-const clickAudio = new Audio('assets/audio/touch.wav');
+const clickAudio = new Audio('assets/audio/touch.mp3');
+const hoverAudio = new Audio('assets/audio/hower.mp3');
 const heroAudio = new Audio('assets/audio/heartbeat.wav');
 heroAudio.loop = true;
 heroAudio.volume = 0;
 
-const initAudio = () => {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-    }
-};
-
 const playHoverSound = () => {
     if (isMuted) return;
     try {
-        initAudio();
-        if (!audioCtx || audioCtx.state === 'suspended') return;
-
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        osc.type = 'sine';
-        const now = audioCtx.currentTime;
-        osc.frequency.setValueAtTime(600, now);
-        osc.frequency.exponentialRampToValueAtTime(1000, now + 0.05);
-
-        gainNode.gain.setValueAtTime(0.012, now); // Very quiet and subtle
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
-
-        osc.start(now);
-        osc.stop(now + 0.05);
+        const sound = hoverAudio.cloneNode();
+        sound.volume = 0.35; // Subtle and clean
+        sound.play();
     } catch (e) {}
 };
 
 const playClickSound = () => {
     if (isMuted) return;
     try {
-        clickAudio.currentTime = 0;
-        clickAudio.volume = 0.5; // Balanced click volume
-        clickAudio.play();
+        const sound = clickAudio.cloneNode();
+        sound.volume = 0.55; // Balanced click volume
+        sound.play();
     } catch (e) {}
 };
 
