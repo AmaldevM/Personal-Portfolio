@@ -639,9 +639,15 @@ document.addEventListener('mouseenter', () => {
     }
 });
 
-// SFX Audio System using Web Audio API
+// SFX Audio System (Custom WAV Files & Web Audio API synthesis)
 let audioCtx = null;
 let isMuted = localStorage.getItem('sfx_muted') === 'true';
+
+// Load custom audio files
+const clickAudio = new Audio('assets/audio/touch.wav');
+const heroAudio = new Audio('assets/audio/heartbeat.wav');
+heroAudio.loop = true;
+heroAudio.volume = 0;
 
 const initAudio = () => {
     if (!audioCtx) {
@@ -680,44 +686,61 @@ const playHoverSound = () => {
 const playClickSound = () => {
     if (isMuted) return;
     try {
-        initAudio();
-        if (!audioCtx || audioCtx.state === 'suspended') return;
-
-        const now = audioCtx.currentTime;
-        
-        // Low pop body
-        const osc1 = audioCtx.createOscillator();
-        const gain1 = audioCtx.createGain();
-        osc1.type = 'triangle';
-        osc1.connect(gain1);
-        gain1.connect(audioCtx.destination);
-        
-        osc1.frequency.setValueAtTime(120, now);
-        osc1.frequency.exponentialRampToValueAtTime(60, now + 0.08);
-        
-        gain1.gain.setValueAtTime(0.06, now);
-        gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
-        
-        osc1.start(now);
-        osc1.stop(now + 0.08);
-
-        // High click tick
-        const osc2 = audioCtx.createOscillator();
-        const gain2 = audioCtx.createGain();
-        osc2.type = 'sine';
-        osc2.connect(gain2);
-        gain2.connect(audioCtx.destination);
-        
-        osc2.frequency.setValueAtTime(1200, now);
-        osc2.frequency.exponentialRampToValueAtTime(1800, now + 0.02);
-        
-        gain2.gain.setValueAtTime(0.025, now);
-        gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
-        
-        osc2.start(now);
-        osc2.stop(now + 0.02);
+        clickAudio.currentTime = 0;
+        clickAudio.volume = 0.5; // Balanced click volume
+        clickAudio.play();
     } catch (e) {}
 };
+
+// Hero Heartbeat Hover Logic (fade-in & fade-out)
+let fadeInterval = null;
+const fadeHeroAudio = (targetVolume, duration = 400, onComplete = null) => {
+    if (fadeInterval) clearInterval(fadeInterval);
+    
+    const startVolume = heroAudio.volume;
+    const steps = 15;
+    const volumeStep = (targetVolume - startVolume) / steps;
+    const stepDuration = duration / steps;
+    let currentStep = 0;
+    
+    fadeInterval = setInterval(() => {
+        currentStep++;
+        heroAudio.volume = Math.max(0, Math.min(1, startVolume + (volumeStep * currentStep)));
+        if (currentStep >= steps) {
+            clearInterval(fadeInterval);
+            heroAudio.volume = targetVolume;
+            if (onComplete) onComplete();
+        }
+    }, stepDuration);
+};
+
+const startHeroAudio = () => {
+    if (isMuted) return;
+    try {
+        heroAudio.play().then(() => {
+            fadeHeroAudio(0.4, 400); // smooth fade-in to 40% volume
+        }).catch(err => {});
+    } catch (e) {}
+};
+
+const stopHeroAudio = () => {
+    fadeHeroAudio(0, 300, () => {
+        heroAudio.pause();
+    });
+};
+
+// Hook up Hero Hover listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const heroSection = document.getElementById('home');
+    if (heroSection) {
+        heroSection.addEventListener('mouseenter', () => {
+            startHeroAudio();
+        });
+        heroSection.addEventListener('mouseleave', () => {
+            stopHeroAudio();
+        });
+    }
+});
 
 // Cursor Hover States & SFX Triggering
 const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge, .cert-card, .experience-link, .btn-cert, .sound-toggle');
@@ -725,7 +748,11 @@ const interactiveElements = document.querySelectorAll('a, button, .project-card,
 interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => {
         cursorOutline.classList.add('hovering');
-        playHoverSound();
+        // Do not play hover tick when hovering inside the hero section to keep heartbeat clean
+        const isInsideHero = el.closest('#home');
+        if (!isInsideHero) {
+            playHoverSound();
+        }
     });
     el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovering'));
 });
@@ -754,9 +781,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (isMuted) {
                 soundToggle.classList.add('muted');
+                stopHeroAudio();
             } else {
                 soundToggle.classList.remove('muted');
                 playClickSound();
+                // If currently hovering hero section, start heartbeat immediately
+                const heroSection = document.getElementById('home');
+                if (heroSection && heroSection.matches(':hover')) {
+                    startHeroAudio();
+                }
             }
         });
     }
