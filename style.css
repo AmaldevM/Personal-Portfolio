@@ -217,6 +217,18 @@ body {
     align-items: center;
 }
 
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+    .nav-right {
+        gap: var(--spacing-sm);
+    }
+}
+
 .nav-logo .logo-text {
     font-size: 1.5rem;
     font-weight: 700;

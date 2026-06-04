@@ -1000,22 +1000,18 @@
     }
 }
 
-/* Floating Sound Toggle Button */
+/* Sound Toggle Button in Navbar */
 .sound-toggle {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: rgba(20, 16, 30, 0.6);
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 100;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: all var(--transition-normal);
@@ -1035,10 +1031,8 @@
 
 @media (max-width: 768px) {
     .sound-toggle {
-        bottom: 1.5rem;
-        left: 1.5rem;
-        width: 42px;
-        height: 42px;
+        width: 36px;
+        height: 36px;
     }
 }
 
