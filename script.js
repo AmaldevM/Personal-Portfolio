@@ -640,7 +640,7 @@ document.addEventListener('mouseenter', () => {
 });
 
 // SFX Audio System (Custom Audio Files)
-let isMuted = localStorage.getItem('sfx_muted') === 'true';
+let isMuted = false; // Always default to unmuted (sound ON) when visiting the website
 
 // Load custom audio files
 const clickAudio = new Audio('assets/audio/touch.mp3');
