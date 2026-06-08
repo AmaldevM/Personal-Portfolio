@@ -1292,6 +1292,27 @@ section>* {
     border: 1px solid rgba(200, 100, 255, 0.1);
 }
 
+.nda-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-sm);
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px dashed rgba(239, 68, 68, 0.25);
+    color: #f87171;
+    font-size: 0.7rem;
+    line-height: 1.3;
+    margin: 0.5rem 0;
+}
+
+.nda-label i {
+    font-size: 0.75rem;
+    color: #ef4444;
+    flex-shrink: 0;
+}
+
+
 @media (max-width: 1024px) {
     .projects-grid {
         grid-template-columns: repeat(2, 1fr);
