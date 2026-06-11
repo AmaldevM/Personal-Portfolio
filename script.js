@@ -877,6 +877,85 @@ projectCards.forEach(card => {
     });
 });
 
+// Highlights Carousel Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.highlights-carousel-container');
+    if (!container) return;
+
+    const track = container.querySelector('.highlights-carousel-track');
+    const slides = Array.from(track.querySelectorAll('.highlight-card-premium'));
+    const prevBtn = container.querySelector('.prev-btn');
+    const nextBtn = container.querySelector('.next-btn');
+    const indicatorsContainer = container.querySelector('.highlights-carousel-indicators');
+    
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let isTransitioning = false;
+
+    const indicators = Array.from(indicatorsContainer.querySelectorAll('.indicator-dot'));
+
+    const updateCarousel = (nextIndex, direction) => {
+        if (isTransitioning || nextIndex === currentIndex) return;
+        isTransitioning = true;
+
+        const currentSlide = slides[currentIndex];
+        const nextSlide = slides[nextIndex];
+
+        // Determine slide direction classes
+        slides.forEach(slide => {
+            slide.classList.remove('active', 'exit-left', 'exit-right', 'enter-left', 'enter-right');
+        });
+
+        // Set direction classes
+        if (direction === 'next') {
+            currentSlide.classList.add('exit-left');
+            nextSlide.classList.add('enter-right');
+        } else {
+            currentSlide.classList.add('exit-right');
+            nextSlide.classList.add('enter-left');
+        }
+
+        // Force repaint
+        nextSlide.offsetHeight;
+
+        // Animate
+        nextSlide.classList.add('active');
+        
+        // Update indicators
+        indicators.forEach((dot, index) => {
+            dot.classList.toggle('active', index === nextIndex);
+        });
+
+        currentIndex = nextIndex;
+
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 800); // Matches the 0.8s CSS transition duration
+    };
+
+    prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const nextIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateCarousel(nextIndex, 'prev');
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % slides.length;
+        updateCarousel(nextIndex, 'next');
+    });
+
+    indicators.forEach((dot, index) => {
+        dot.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (index === currentIndex) return;
+            const direction = index > currentIndex ? 'next' : 'prev';
+            updateCarousel(index, direction);
+        });
+    });
+});
+
 
 
 

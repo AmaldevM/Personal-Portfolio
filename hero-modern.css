@@ -389,13 +389,21 @@
     z-index: 0;
 }
 
-.highlights-grid {
+.highlights-carousel-container {
+    position: relative;
+    width: 100%;
+    margin-top: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.highlights-carousel-track {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
+    grid-template-rows: 1fr;
+    width: 100%;
     position: relative;
-    z-index: 1;
-    margin-top: var(--spacing-md);
 }
 
 .highlight-gallery img {
@@ -410,6 +418,7 @@
 }
 
 .highlight-card-premium {
+    grid-area: 1 / 1 / 2 / 2;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
@@ -421,7 +430,49 @@
     backdrop-filter: blur(15px);
     position: relative;
     overflow: hidden;
-    transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(80px, 0, 0) scale(0.98);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color var(--transition-normal),
+                box-shadow var(--transition-normal);
+    will-change: opacity, transform;
+}
+
+.highlight-card-premium.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0) scale(1);
+    z-index: 2;
+}
+
+/* Exit Left */
+.highlight-card-premium.exit-left {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(-80px, 0, 0) scale(0.98);
+}
+
+/* Exit Right */
+.highlight-card-premium.exit-right {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(80px, 0, 0) scale(0.98);
+}
+
+/* Enter Left */
+.highlight-card-premium.enter-left {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(-80px, 0, 0) scale(0.98);
+}
+
+/* Enter Right */
+.highlight-card-premium.enter-right {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(80px, 0, 0) scale(0.98);
 }
 
 .highlight-card-premium::before {
@@ -447,6 +498,72 @@
 .highlight-card-premium.highlight-blue:hover {
     border-color: rgba(0, 240, 255, 0.25);
     box-shadow: 0 12px 40px rgba(0, 240, 255, 0.06);
+}
+
+/* Carousel Controls Styling */
+.highlights-carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    z-index: 10;
+}
+
+.highlights-ctrl-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.highlights-ctrl-btn:hover {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: #4ade80;
+    color: #4ade80;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+}
+
+.highlights-carousel-indicators {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.highlights-carousel-indicators .indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.highlights-carousel-indicators .indicator-dot.active {
+    background: #4ade80;
+    transform: scale(1.25);
+    box-shadow: 0 0 8px #4ade80;
+}
+
+/* Color adaptation for active slide with blue theme */
+.highlights-carousel-container:has(.highlight-blue.active) .indicator-dot.active {
+    background: #00f0ff;
+    box-shadow: 0 0 8px #00f0ff;
+}
+
+.highlights-carousel-container:has(.highlight-blue.active) .highlights-ctrl-btn:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: #00f0ff;
+    color: #00f0ff;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
 }
 
 
