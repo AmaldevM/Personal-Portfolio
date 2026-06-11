@@ -16,7 +16,15 @@ const hidePreloader = (force = false) => {
 
         // Start main content reveal slightly after preloader starts fading
         setTimeout(() => {
-            if (mainContent) mainContent.classList.add('reveal');
+            if (mainContent) {
+                mainContent.classList.add('reveal');
+                // Remove filter and transform properties after transition (1.2s duration)
+                // to prevent creating a containing block for position: fixed elements.
+                setTimeout(() => {
+                    mainContent.style.filter = 'none';
+                    mainContent.style.transform = 'none';
+                }, 1300);
+            }
         }, 100);
 
         setTimeout(() => {
