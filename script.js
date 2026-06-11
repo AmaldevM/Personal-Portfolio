@@ -396,7 +396,7 @@ const initHighlightsSliders = () => {
         
         let currentIndex = 0;
         const totalSlides = slides.length;
-        if (totalSlides === 0) return;
+        if (totalSlides <= 1) return;
         
         let autoSlideInterval;
         
