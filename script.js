@@ -905,4 +905,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// GSAP Horizontal Scroll Pinning for Highlights
+const initHorizontalHighlights = () => {
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    const container = document.querySelector('#highlights');
+    const wrapper = document.querySelector('.highlights-cards-wrapper');
+    const track = document.querySelector('.highlights-cards-track');
+    
+    if (!container || !wrapper || !track) return;
+
+    // Connect Lenis to ScrollTrigger so they sync up nicely
+    if (typeof lenis !== 'undefined') {
+        lenis.on('scroll', ScrollTrigger.update);
+    }
+
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 969px)", () => {
+        // Calculate horizontal scrollable distance
+        const getScrollAmount = () => {
+            return wrapper.scrollWidth - track.clientWidth;
+        };
+
+        const scrollAmount = getScrollAmount();
+        if (scrollAmount <= 0) return;
+
+        // Slide the wrapper to the left on vertical scroll
+        gsap.to(wrapper, {
+            x: () => -getScrollAmount(),
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#highlights",
+                pin: true,
+                scrub: 1, // smooth scrub
+                start: "top top",
+                end: () => `+=${getScrollAmount() * 1.5}`, // scroll length proportional to displacement
+                invalidateOnRefresh: true,
+            }
+        });
+    });
+    
+    // Refresh ScrollTrigger when everything is loaded
+    window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+    });
+};
+
+// Start horizontal scroll reveal when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initHorizontalHighlights, 100);
+});
+
 

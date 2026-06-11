@@ -389,13 +389,41 @@
     z-index: 0;
 }
 
-.highlights-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
+/* Highlights Horizontal Scroll Track & Container styles */
+.highlights-horizontal-container {
     position: relative;
+    width: 100%;
     z-index: 1;
-    margin-top: var(--spacing-md);
+}
+
+.highlights-header-column {
+    position: relative;
+}
+
+.highlights-scroll-indicator {
+    display: none;
+}
+
+.highlights-cards-track {
+    width: 100%;
+}
+
+.highlights-cards-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.highlight-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 6s ease;
+}
+
+.highlight-card-premium:hover .highlight-gallery img {
+    transform: scale(1.04);
 }
 
 .highlight-card-premium {
@@ -1252,6 +1280,154 @@
     }
     .modal-title {
         font-size: 1.4rem;
+    }
+}
+
+/* Horizontal Scroll Pinning Media Queries */
+@media (min-width: 969px) {
+    #highlights {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        padding: 0 !important;
+        box-sizing: border-box;
+    }
+    
+    .highlights-horizontal-container {
+        display: flex;
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 4rem;
+        align-items: center;
+        gap: 4rem;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    
+    .highlights-header-column {
+        width: 320px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        z-index: 10;
+        text-align: left;
+    }
+    
+    .highlights-header-column .section-header {
+        text-align: left;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .highlights-scroll-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 2.5rem;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-weight: 500;
+        opacity: 0.8;
+    }
+    
+    .mouse-scroll-icon {
+        width: 20px;
+        height: 32px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .mouse-scroll-icon .mouse-dot {
+        width: 4px;
+        height: 8px;
+        background-color: #4ade80;
+        border-radius: 2px;
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: mouseScrollAnim 1.6s infinite ease-in-out;
+    }
+    
+    @keyframes mouseScrollAnim {
+        0% { opacity: 1; transform: translate(-50%, 0); }
+        50% { opacity: 0.3; transform: translate(-50%, 8px); }
+        100% { opacity: 1; transform: translate(-50%, 0); }
+    }
+    
+    .highlights-cards-track {
+        flex-grow: 1;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 4rem 0;
+        position: relative;
+    }
+    
+    .highlights-cards-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 3.5rem;
+        width: max-content;
+        align-items: center;
+        padding-right: 20vw;
+    }
+    
+    .highlights-cards-wrapper .highlight-card-premium {
+        width: 850px;
+        flex-shrink: 0;
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+    }
+}
+
+@media (max-width: 968px) {
+    .highlights-horizontal-container {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        padding: 0 var(--spacing-md);
+    }
+    
+    .highlights-header-column {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .highlights-header-column .section-header {
+        text-align: center;
+        margin-bottom: 0;
+    }
+    
+    .highlights-scroll-indicator {
+        display: none;
+    }
+    
+    .highlights-cards-track {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    .highlights-cards-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        width: 100%;
+    }
+    
+    .highlights-cards-wrapper .highlight-card-premium {
+        width: 100%;
     }
 }
 
