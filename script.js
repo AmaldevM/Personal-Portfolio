@@ -521,6 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(type, 500);
     initProjectSliders();
     initHighlightsSliders();
+    initPremiumScrollHighlights();
 });
 
 // Form submission
@@ -826,11 +827,136 @@ if (timeline && timelineProgress) {
         });
     };
     
-    window.addEventListener('scroll', updateTimelineProgress);
-    window.addEventListener('resize', updateTimelineProgress);
-    // Initial call in case experience is already visible on page load
+    // Listen to Lenis scroll for timeline progress updating
+    lenis.on('scroll', updateTimelineProgress);
+    // Initial run
     updateTimelineProgress();
 }
+
+// Premium Vertical Scroll Stacking and Stagger Morph Animations for Highlights
+const initPremiumScrollHighlights = () => {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    // Run ScrollTrigger on desktop devices only
+    if (window.innerWidth < 969) return;
+
+    const container = document.querySelector('.highlights-scroll-stack');
+    const track = document.querySelector('.highlights-stack-track');
+    if (!container || !track) return;
+
+    // Split text logic for titles
+    const splitTitles = document.querySelectorAll('.anim-split-title');
+    splitTitles.forEach(title => {
+        const text = title.textContent.trim();
+        title.innerHTML = '';
+        text.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char; // preserve spaces
+            title.appendChild(span);
+        });
+    });
+
+    const cardDoztix = document.querySelector('.card-doztix');
+    const cardMix = document.querySelector('.card-mix');
+    if (!cardDoztix || !cardMix) return;
+
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Sync Lenis smooth scroll updates with ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // Create pinning ScrollTrigger master timeline
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.highlights-scroll-stack',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1, // smooth scroll scrub
+            pin: '.highlights-sticky-frame',
+            invalidateOnRefresh: true
+        }
+    });
+
+    // Stagger animation query helpers
+    const getLetters = (card) => card.querySelectorAll('.anim-split-title span');
+    const getDetails = (card) => card.querySelectorAll('.badge-tag, .highlight-description, .highlight-details-grid, .highlight-skills');
+
+    // 1. Doztix (Card 1) Entrance & Capsule-to-Rectangle Morphing
+    tl.fromTo(cardDoztix, 
+        { opacity: 0, scale: 0.65, y: '20vh', borderRadius: '80px' },
+        { 
+            opacity: 1, 
+            scale: 1, 
+            y: '0vh', 
+            borderRadius: '24px', 
+            duration: 1.2,
+            onStart: () => cardDoztix.classList.add('gsap-active'),
+            onReverseComplete: () => cardDoztix.classList.remove('gsap-active')
+        }
+    )
+    .to(cardDoztix.querySelector('.card-background-marquee'), {
+        opacity: 0,
+        duration: 0.6
+    }, '-=0.6')
+    .fromTo(getLetters(cardDoztix),
+        { y: '110%', opacity: 0 },
+        { y: '0%', opacity: 1, stagger: 0.015, duration: 0.5 },
+        '-=0.5'
+    )
+    .fromTo(getDetails(cardDoztix),
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, stagger: 0.12, duration: 0.6 },
+        '-=0.4'
+    );
+
+    // Hold Card 1 in view (Scroll Cushion)
+    tl.to({}, { duration: 0.8 });
+
+    // 2. Doztix Exit & Mix (Card 2) Stacking Entrance
+    tl.to(cardDoztix, {
+        scale: 0.93,
+        opacity: 0.45,
+        duration: 1,
+        onStart: () => cardDoztix.classList.remove('gsap-active'),
+        onReverseComplete: () => cardDoztix.classList.add('gsap-active')
+    })
+    .fromTo(cardMix,
+        { opacity: 0, scale: 0.65, y: '20vh', borderRadius: '80px' },
+        {
+            opacity: 1,
+            scale: 1,
+            y: '0vh',
+            borderRadius: '24px',
+            duration: 1.2,
+            onStart: () => cardMix.classList.add('gsap-active'),
+            onReverseComplete: () => cardMix.classList.remove('gsap-active')
+        },
+        '-=1' // Overlap entrance and exit transitions
+    )
+    .fromTo(getLetters(cardMix),
+        { y: '110%', opacity: 0 },
+        { y: '0%', opacity: 1, stagger: 0.015, duration: 0.5 },
+        '-=0.4'
+    )
+    .fromTo(getDetails(cardMix),
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, stagger: 0.12, duration: 0.6 },
+        '-=0.4'
+    );
+
+    // Hold Card 2 in view at end
+    tl.to({}, { duration: 0.8 });
+
+    // Refresh triggers after page completely renders
+    window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initPremiumScrollHighlights();
+});
 
 // 3D Parallax Tilt Card Effect
 const projectCards = document.querySelectorAll('.project-card');
