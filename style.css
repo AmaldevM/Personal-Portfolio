@@ -147,6 +147,34 @@
     transform: translateX(40px);
 }
 
+/* Premium Blur Easing Reveal */
+.reveal-blur-left {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(-80px, 0, 0);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
+}
+
+.reveal-blur-right {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(80px, 0, 0);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
+}
+
+.reveal-blur-left.active,
+.reveal-blur-right.active {
+    opacity: 1 !important;
+    filter: blur(0) !important;
+    transform: translate3d(0, 0, 0) !important;
+}
+
 .reveal.active {
     opacity: 1 !important;
     transform: translate(0, 0) !important;
