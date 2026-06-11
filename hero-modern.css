@@ -398,6 +398,36 @@
     margin-top: var(--spacing-md);
 }
 
+@media (min-width: 1025px) {
+    .highlights-grid {
+        max-height: 590px; /* Fits one premium highlight card perfectly */
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        padding-right: 0.75rem;
+        gap: 4rem; /* Spacing between snapped items */
+    }
+
+    /* Custom scrollbar for highlights grid */
+    .highlights-grid::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .highlights-grid::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 3px;
+    }
+
+    .highlights-grid::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 3px;
+        transition: background 0.3s ease;
+    }
+
+    .highlights-grid::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+}
+
 .highlight-card-premium {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
@@ -411,6 +441,14 @@
     position: relative;
     overflow: hidden;
     transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+@media (min-width: 1025px) {
+    .highlight-card-premium {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        min-height: 520px; /* Consistent height for grid snap container */
+    }
 }
 
 .highlight-card-premium::before {
@@ -446,67 +484,6 @@
     overflow: hidden;
     aspect-ratio: 16/10;
     border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Scrollable Highlight Gallery for Redesigns */
-.scrollable-gallery {
-    background: #0b0914;
-}
-
-.gallery-scroll-container {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Custom scrollbar for gallery container */
-.gallery-scroll-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.gallery-scroll-container::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.gallery-scroll-container::-webkit-scrollbar-thumb {
-    background: rgba(0, 240, 255, 0.2);
-    border-radius: 3px;
-}
-
-.gallery-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 240, 255, 0.4);
-}
-
-.gallery-section-label {
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(239, 68, 68, 0.9);
-    color: white;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-align: center;
-    padding: 0.35rem 0;
-    letter-spacing: 0.05em;
-    z-index: 10;
-    backdrop-filter: blur(5px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.gallery-section-label.after-label {
-    background: rgba(0, 240, 255, 0.95);
-    color: #0b0914;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.scroll-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
 }
 
 
