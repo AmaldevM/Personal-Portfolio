@@ -390,9 +390,9 @@
 }
 
 .highlights-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 3.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
     position: relative;
     z-index: 1;
     margin-top: var(--spacing-md);
@@ -410,14 +410,13 @@
 }
 
 .highlight-card-premium {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 3.5rem;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
     background: rgba(20, 16, 30, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: var(--radius-lg);
-    padding: 3.5rem;
+    padding: 2.5rem;
     box-shadow: var(--shadow-lg);
     backdrop-filter: blur(15px);
     position: relative;
@@ -455,33 +454,9 @@
     box-shadow: 0 12px 40px rgba(0, 240, 255, 0.06);
 }
 
-/* Alternating layout for highlights on desktop */
-@media (min-width: 969px) {
-    .highlight-card-premium:nth-child(even) {
-        grid-template-columns: 1fr 1.2fr;
-    }
-    .highlight-card-premium:nth-child(even) .highlight-gallery {
-        grid-column: 2;
-    }
-    .highlight-card-premium:nth-child(even) .highlight-info {
-        grid-column: 1;
-        grid-row: 1;
-    }
-    .highlight-card-premium:nth-child(odd) .highlight-gallery {
-        grid-column: 1;
-    }
-    .highlight-card-premium:nth-child(odd) .highlight-info {
-        grid-column: 2;
-    }
-    .highlight-details-grid {
-        grid-template-columns: 1fr 1fr !important;
-    }
-}
-
 .highlight-gallery {
     width: 100%;
-    height: 100%;
-    min-height: 380px;
+    aspect-ratio: 16/10;
     position: relative;
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -719,17 +694,16 @@
 
 @media (max-width: 968px) {
     .highlights-grid {
+        grid-template-columns: 1fr;
         gap: 2.5rem;
     }
     
     .highlight-card-premium {
-        grid-template-columns: 1fr;
-        gap: 2rem;
         padding: 2rem;
+        gap: 2rem;
     }
     
     .highlight-gallery {
-        min-height: auto;
         aspect-ratio: 16/10;
     }
     
