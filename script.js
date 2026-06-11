@@ -869,4 +869,40 @@ projectCards.forEach(card => {
     });
 });
 
+// Case Study Modal Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const openBtn = document.getElementById('openMixCaseStudy');
+    const closeBtn = document.getElementById('closeMixCaseStudy');
+    const modal = document.getElementById('mixCaseStudyModal');
+    
+    if (openBtn && closeBtn && modal) {
+        const overlay = modal.querySelector('.modal-overlay');
+
+        const openModal = (e) => {
+            e.preventDefault();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (typeof lenis !== 'undefined') lenis.stop();
+        };
+
+        const closeModal = (e) => {
+            if (e) e.preventDefault();
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            if (typeof lenis !== 'undefined') lenis.start();
+        };
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        if (overlay) overlay.addEventListener('click', closeModal);
+
+        // Close on ESC key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+});
+
 

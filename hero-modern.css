@@ -1046,4 +1046,212 @@
         height: 36px;
     }
 }
+
+/* Case Study Modal */
+.case-study-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.case-study-modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 8, 16, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 950px;
+    max-height: 85vh;
+    background: rgba(20, 16, 30, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    z-index: 10;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.92) translateY(30px);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.case-study-modal.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 2.2rem;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    line-height: 1;
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.modal-close:hover {
+    color: #ef4444;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.modal-header {
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #fff, #00f0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.modal-scroll-area {
+    overflow-y: auto;
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    flex: 1;
+}
+
+/* Scrollbar */
+.modal-scroll-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-scroll-area::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.modal-scroll-area::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.2);
+    border-radius: 3px;
+}
+
+.modal-scroll-area::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 240, 255, 0.4);
+}
+
+.modal-section h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #00f0ff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-section p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.modal-image-container {
+    width: 100%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0d0b14;
+    margin-top: 0.5rem;
+}
+
+.modal-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.modal-col h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #00f0ff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.modal-col li {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 1.25rem;
+}
+
+.modal-col li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #00f0ff;
+}
+
+@media (max-width: 768px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .modal-content {
+        padding: 1.5rem;
+        max-height: 90vh;
+    }
+    .modal-title {
+        font-size: 1.4rem;
+    }
+}
 
