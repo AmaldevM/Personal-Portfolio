@@ -85,20 +85,6 @@ const lenis = new Lenis({
     smoothTouch: false
 });
 
-// Link Lenis to GSAP ScrollTrigger using GSAP ticker for perfect frame-rate synchronization
-if (typeof lenis !== 'undefined' && typeof gsap !== 'undefined') {
-    lenis.on('scroll', () => {
-        if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.update();
-        }
-    });
-    
-    gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-    });
-    
-    gsap.ticker.lagSmoothing(0);
-}
 
 // Update Lenis scroll callback
 lenis.on('scroll', (e) => {
@@ -182,8 +168,9 @@ if (cardPerspective && profileCard) {
     });
 }
 
-// Unified requestAnimationFrame loop for Mora-style scroll/tilt effects
+// Unified requestAnimationFrame loop for Lenis and Mora-style scroll/tilt effects
 function animate(time) {
+    lenis.raf(time);
     const scrolled = lenis.scroll || window.scrollY;
     const viewportHeight = window.innerHeight;
 
@@ -926,62 +913,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// GSAP Horizontal Scroll Pinning for Highlights
-const initHorizontalHighlights = () => {
-    // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
 
-    const container = document.querySelector('#highlights');
-    const wrapper = document.querySelector('.highlights-cards-wrapper');
-    const track = document.querySelector('.highlights-cards-track');
-    
-    if (!container || !wrapper || !track) return;
-
-    // Connect Lenis to ScrollTrigger so they sync up nicely
-    if (typeof lenis !== 'undefined') {
-        lenis.on('scroll', ScrollTrigger.update);
-    }
-
-    let mm = gsap.matchMedia();
-
-    mm.add("(min-width: 969px)", () => {
-        // Calculate horizontal scrollable distance
-        const getScrollAmount = () => {
-            const cards = wrapper.querySelectorAll('.highlight-card-premium');
-            if (cards.length === 0) return 0;
-            const lastCard = cards[cards.length - 1];
-            // Calculate exact distance to make the last card fully visible at the right edge
-            const amount = (lastCard.offsetLeft + lastCard.offsetWidth) - track.clientWidth;
-            return Math.max(0, amount);
-        };
-
-        const scrollAmount = getScrollAmount();
-        if (scrollAmount <= 0) return;
-
-        // Slide the wrapper to the left on vertical scroll
-        gsap.to(wrapper, {
-            x: () => -getScrollAmount(),
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#highlights",
-                pin: true,
-                scrub: 1, // smooth scrub
-                start: "top top",
-                end: () => `+=${getScrollAmount()}`, // 1:1 scroll speed, unpins exactly when last card fully enters
-                invalidateOnRefresh: true,
-            }
-        });
-    });
-    
-    // Refresh ScrollTrigger when everything is loaded
-    window.addEventListener('load', () => {
-        ScrollTrigger.refresh();
-    });
-};
-
-// Start horizontal scroll reveal when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(initHorizontalHighlights, 100);
-});
 
 
