@@ -457,11 +457,21 @@
 
 /* Alternating layout for highlights on desktop */
 @media (min-width: 969px) {
+    .highlight-card-premium:nth-child(even) {
+        grid-template-columns: 1fr 1.2fr;
+    }
     .highlight-card-premium:nth-child(even) .highlight-gallery {
-        order: 2;
+        grid-column: 2;
     }
     .highlight-card-premium:nth-child(even) .highlight-info {
-        order: 1;
+        grid-column: 1;
+        grid-row: 1;
+    }
+    .highlight-card-premium:nth-child(odd) .highlight-gallery {
+        grid-column: 1;
+    }
+    .highlight-card-premium:nth-child(odd) .highlight-info {
+        grid-column: 2;
     }
     .highlight-details-grid {
         grid-template-columns: 1fr 1fr !important;
