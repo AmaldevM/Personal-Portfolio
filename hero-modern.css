@@ -390,9 +390,9 @@
 }
 
 .highlights-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
     position: relative;
     z-index: 1;
     margin-top: var(--spacing-md);
@@ -410,18 +410,24 @@
 }
 
 .highlight-card-premium {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
     background: rgba(20, 16, 30, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: var(--radius-lg);
-    padding: 2.5rem;
+    padding: 3.5rem;
     box-shadow: var(--shadow-lg);
     backdrop-filter: blur(15px);
     position: relative;
     overflow: hidden;
-    transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+    /* Combined transition properties to prevent conflict with entrance scroll-reveal animations */
+    transition: border-color var(--transition-normal), 
+                box-shadow var(--transition-normal),
+                opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .highlight-card-premium::before {
@@ -449,10 +455,23 @@
     box-shadow: 0 12px 40px rgba(0, 240, 255, 0.06);
 }
 
+/* Alternating layout for highlights on desktop */
+@media (min-width: 969px) {
+    .highlight-card-premium:nth-child(even) .highlight-gallery {
+        order: 2;
+    }
+    .highlight-card-premium:nth-child(even) .highlight-info {
+        order: 1;
+    }
+    .highlight-details-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
 
 .highlight-gallery {
     width: 100%;
-    aspect-ratio: 16/9;
+    height: 100%;
+    min-height: 380px;
     position: relative;
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -690,16 +709,17 @@
 
 @media (max-width: 968px) {
     .highlights-grid {
-        grid-template-columns: 1fr;
+        gap: 2.5rem;
     }
     
     .highlight-card-premium {
-        padding: 1.75rem;
-        gap: 1.75rem;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
     }
     
     .highlight-gallery {
-        height: auto;
+        min-height: auto;
         aspect-ratio: 16/10;
     }
     
@@ -710,7 +730,7 @@
     }
     
     .highlight-details-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 1.25rem;
     }
 }
