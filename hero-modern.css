@@ -429,6 +429,16 @@
     box-shadow: 0 12px 40px rgba(74, 222, 128, 0.06);
 }
 
+.highlight-card-premium.highlight-blue::before {
+    background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+}
+
+.highlight-card-premium.highlight-blue:hover {
+    border-color: rgba(0, 240, 255, 0.25);
+    box-shadow: 0 12px 40px rgba(0, 240, 255, 0.06);
+}
+
+
 .highlight-gallery {
     width: 100%;
     position: relative;
