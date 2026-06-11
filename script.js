@@ -85,6 +85,21 @@ const lenis = new Lenis({
     smoothTouch: false
 });
 
+// Link Lenis to GSAP ScrollTrigger using GSAP ticker for perfect frame-rate synchronization
+if (typeof lenis !== 'undefined' && typeof gsap !== 'undefined') {
+    lenis.on('scroll', () => {
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.update();
+        }
+    });
+    
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    
+    gsap.ticker.lagSmoothing(0);
+}
+
 // Update Lenis scroll callback
 lenis.on('scroll', (e) => {
     const scrolled = e.scroll;
@@ -167,10 +182,8 @@ if (cardPerspective && profileCard) {
     });
 }
 
-// Unified requestAnimationFrame loop for Lenis and Mora-style scroll/tilt effects
+// Unified requestAnimationFrame loop for Mora-style scroll/tilt effects
 function animate(time) {
-    lenis.raf(time);
-
     const scrolled = lenis.scroll || window.scrollY;
     const viewportHeight = window.innerHeight;
 
@@ -934,7 +947,12 @@ const initHorizontalHighlights = () => {
     mm.add("(min-width: 969px)", () => {
         // Calculate horizontal scrollable distance
         const getScrollAmount = () => {
-            return wrapper.scrollWidth - track.clientWidth;
+            const cards = wrapper.querySelectorAll('.highlight-card-premium');
+            if (cards.length === 0) return 0;
+            const lastCard = cards[cards.length - 1];
+            // Calculate exact distance to make the last card fully visible at the right edge
+            const amount = (lastCard.offsetLeft + lastCard.offsetWidth) - track.clientWidth;
+            return Math.max(0, amount);
         };
 
         const scrollAmount = getScrollAmount();
@@ -949,7 +967,7 @@ const initHorizontalHighlights = () => {
                 pin: true,
                 scrub: 1, // smooth scrub
                 start: "top top",
-                end: () => `+=${getScrollAmount() * 1.5}`, // scroll length proportional to displacement
+                end: () => `+=${getScrollAmount()}`, // 1:1 scroll speed, unpins exactly when last card fully enters
                 invalidateOnRefresh: true,
             }
         });

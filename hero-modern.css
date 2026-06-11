@@ -1381,15 +1381,68 @@
         gap: 3.5rem;
         width: max-content;
         align-items: center;
-        padding-right: 20vw;
+        padding-right: 15vw;
+        position: relative; /* Anchor offsetParent for JS offsetLeft calculations */
     }
     
     .highlights-cards-wrapper .highlight-card-premium {
         width: 850px;
+        max-height: 82vh;
         flex-shrink: 0;
         transform: none !important;
         opacity: 1 !important;
         filter: none !important;
+        padding: 1.75rem;
+        gap: 1.75rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    /* Compress elements inside the horizontal scroll cards so they fit nicely within 82vh */
+    .highlights-cards-wrapper .highlight-info {
+        gap: 0.75rem;
+    }
+    
+    .highlights-cards-wrapper .highlight-title {
+        font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+        margin: 0;
+    }
+    
+    .highlights-cards-wrapper .highlight-description {
+        font-size: 0.85rem;
+        line-height: 1.45;
+        margin: 0;
+    }
+    
+    .highlights-cards-wrapper .highlight-details-grid {
+        gap: 0.85rem;
+        margin: 0;
+    }
+    
+    .highlights-cards-wrapper .detail-column h4 {
+        margin-bottom: 0.35rem;
+        font-size: 0.85rem;
+    }
+    
+    .highlights-cards-wrapper .detail-column li {
+        font-size: 0.775rem;
+        line-height: 1.4;
+        margin-bottom: 0.15rem;
+    }
+
+    .highlights-cards-wrapper .highlight-skills {
+        gap: 0.35rem;
+    }
+
+    .highlights-cards-wrapper .highlight-skills .tech-badge {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .highlights-cards-wrapper .highlight-actions {
+        margin-top: 0.5rem !important;
     }
 }
 
