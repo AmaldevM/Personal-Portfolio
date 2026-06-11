@@ -399,11 +399,8 @@
 }
 
 .highlights-carousel-track {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    width: 100%;
     position: relative;
+    width: 100%;
 }
 
 .highlight-gallery img {
@@ -418,7 +415,10 @@
 }
 
 .highlight-card-premium {
-    grid-area: 1 / 1 / 2 / 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
@@ -428,7 +428,6 @@
     padding: 2.5rem;
     box-shadow: var(--shadow-lg);
     backdrop-filter: blur(15px);
-    position: relative;
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
@@ -441,6 +440,7 @@
 }
 
 .highlight-card-premium.active {
+    position: relative;
     opacity: 1;
     pointer-events: auto;
     transform: translate3d(0, 0, 0) scale(1);
