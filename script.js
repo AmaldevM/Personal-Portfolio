@@ -1003,6 +1003,89 @@ projectCards.forEach(card => {
     });
 });
 
+// Interactive Resume Tabs Switcher & Mobile Resume Dropdown
+const initInteractiveResume = () => {
+    const tabs = document.querySelectorAll('.resume-tab');
+    const slider = document.querySelector('.tabs-slider');
+    const panes = document.querySelectorAll('.resume-pane');
+
+    if (tabs.length > 0 && slider) {
+        const updateSlider = (activeTab) => {
+            slider.style.width = activeTab.offsetWidth + 'px';
+            slider.style.left = activeTab.offsetLeft + 'px';
+        };
+
+        // Initialize slider position for active tab on load and on resize
+        const activeTab = document.querySelector('.resume-tab.active');
+        if (activeTab) {
+            setTimeout(() => {
+                updateSlider(activeTab);
+                // Also add show class initially for default tab
+                const defaultPane = document.querySelector('.resume-pane.active');
+                if (defaultPane) defaultPane.classList.add('show');
+            }, 150);
+        }
+
+        window.addEventListener('resize', () => {
+            const currentActive = document.querySelector('.resume-tab.active');
+            if (currentActive) updateSlider(currentActive);
+        });
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                if (tab.classList.contains('active')) return;
+
+                // Toggle tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                updateSlider(tab);
+
+                // Switch content panes with smooth fade-in
+                const targetRole = tab.getAttribute('data-role');
+                
+                // Hide current active pane first
+                const currentPane = document.querySelector('.resume-pane.active');
+                if (currentPane) {
+                    currentPane.classList.remove('show');
+                    
+                    setTimeout(() => {
+                        currentPane.classList.remove('active');
+                        
+                        // Show new pane
+                        const newPane = document.querySelector(`.pane-${targetRole}`);
+                        if (newPane) {
+                            newPane.classList.add('active');
+                            setTimeout(() => {
+                                newPane.classList.add('show');
+                                // Refresh ScrollTrigger to recalculate layout dimensions
+                                if (typeof ScrollTrigger !== 'undefined') {
+                                    ScrollTrigger.refresh();
+                                }
+                            }, 50);
+                        }
+                    }, 400); // matches CSS fade out transition
+                }
+            });
+        });
+    }
+
+    // Mobile Navigation Dropdown Toggle
+    const mobileToggle = document.getElementById('mobileResumeToggle');
+    const mobileMenu = document.getElementById('mobileResumeMenu');
+
+    if (mobileToggle && mobileMenu) {
+        mobileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    initInteractiveResume();
+});
+
 
 
 
