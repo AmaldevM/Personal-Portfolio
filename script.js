@@ -654,9 +654,6 @@ let isMuted = false; // Always default to unmuted (sound ON) when visiting the w
 // Load custom audio files
 const clickAudio = new Audio('assets/audio/touch.mp3');
 const hoverAudio = new Audio('assets/audio/hower.mp3');
-const heroAudio = new Audio('assets/audio/heartbeat.wav');
-heroAudio.loop = true;
-heroAudio.volume = 0;
 
 const playHoverSound = () => {
     if (isMuted) return;
@@ -676,55 +673,6 @@ const playClickSound = () => {
     } catch (e) {}
 };
 
-// Hero Heartbeat Hover Logic (fade-in & fade-out)
-let fadeInterval = null;
-const fadeHeroAudio = (targetVolume, duration = 400, onComplete = null) => {
-    if (fadeInterval) clearInterval(fadeInterval);
-    
-    const startVolume = heroAudio.volume;
-    const steps = 15;
-    const volumeStep = (targetVolume - startVolume) / steps;
-    const stepDuration = duration / steps;
-    let currentStep = 0;
-    
-    fadeInterval = setInterval(() => {
-        currentStep++;
-        heroAudio.volume = Math.max(0, Math.min(1, startVolume + (volumeStep * currentStep)));
-        if (currentStep >= steps) {
-            clearInterval(fadeInterval);
-            heroAudio.volume = targetVolume;
-            if (onComplete) onComplete();
-        }
-    }, stepDuration);
-};
-
-const startHeroAudio = () => {
-    if (isMuted) return;
-    try {
-        heroAudio.play().then(() => {
-            fadeHeroAudio(0.4, 400); // smooth fade-in to 40% volume
-        }).catch(err => {});
-    } catch (e) {}
-};
-
-const stopHeroAudio = () => {
-    fadeHeroAudio(0, 300, () => {
-        heroAudio.pause();
-    });
-};
-
-// Hook up Hero Hover listeners
-document.addEventListener('DOMContentLoaded', () => {
-    const heroSection = document.getElementById('home');
-    if (heroSection) {
-        heroSection.addEventListener('mouseenter', () => {
-            startHeroAudio();
-        });
-        heroSection.addEventListener('mouseleave', () => {
-            stopHeroAudio();
-        });
-    }
-});
 
 // Cursor Hover States & SFX Triggering
 const interactiveElements = document.querySelectorAll('a, button, .project-card, .social-btn, .experience-card, .stat-card, .carousel-dot, .tech-badge, .cert-card, .experience-link, .btn-cert, .sound-toggle');
@@ -732,11 +680,7 @@ const interactiveElements = document.querySelectorAll('a, button, .project-card,
 interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => {
         cursorOutline.classList.add('hovering');
-        // Do not play hover tick when hovering inside the hero section to keep heartbeat clean
-        const isInsideHero = el.closest('#home');
-        if (!isInsideHero) {
-            playHoverSound();
-        }
+        playHoverSound();
     });
     el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovering'));
 });
@@ -765,15 +709,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (isMuted) {
                 soundToggle.classList.add('muted');
-                stopHeroAudio();
             } else {
                 soundToggle.classList.remove('muted');
                 playClickSound();
-                // If currently hovering hero section, start heartbeat immediately
-                const heroSection = document.getElementById('home');
-                if (heroSection && heroSection.matches(':hover')) {
-                    startHeroAudio();
-                }
             }
         });
     }
