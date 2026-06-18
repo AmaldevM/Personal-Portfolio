@@ -1,7 +1,7 @@
 // Preloader with minimum display time
 const preloader = document.querySelector('.preloader');
 const mainContent = document.querySelector('.main-content');
-const minLoadingTime = 4000; // Show preloader for at least 4 seconds
+const minLoadingTime = 800; // Show preloader for at least 800ms
 const startTime = Date.now();
 let preloaderTimeout;
 
@@ -36,8 +36,8 @@ const hidePreloader = (force = false) => {
 // Dismiss when page is fully loaded (respecting min display time)
 window.addEventListener('load', () => hidePreloader(false));
 
-// Fallback auto-hide after 8 seconds if load event hangs
-preloaderTimeout = setTimeout(() => hidePreloader(false), 8000);
+// Fallback auto-hide after 3 seconds if load event hangs
+preloaderTimeout = setTimeout(() => hidePreloader(false), 3000);
 
 // Dismiss immediately on click (if user wants to skip)
 if (preloader) {
@@ -79,18 +79,18 @@ const shapes = document.querySelectorAll('.floating-shape');
 const spySections = document.querySelectorAll('section');
 
 // Initialize Lenis smooth scroll
-const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    smoothTouch: false
-});
+let lenis;
+if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        smoothTouch: false
+    });
+}
 
-
-// Update Lenis scroll callback
-lenis.on('scroll', (e) => {
-    const scrolled = e.scroll;
-
+// Unified Scroll Spy & State Updater
+const handleScrollUpdate = (scrolled) => {
     // 1. Navbar scrolled state
     if (scrolled > 100) {
         navbar.classList.add('scrolled');
@@ -98,7 +98,7 @@ lenis.on('scroll', (e) => {
         navbar.classList.remove('scrolled');
     }
 
-    // 2. Parallax shapes CSS variables update (flat background shapes)
+    // 2. Parallax shapes CSS variables update
     shapes.forEach((shape, index) => {
         const speed = (index + 1) * 0.15;
         const yOffset = scrolled * speed;
@@ -107,7 +107,6 @@ lenis.on('scroll', (e) => {
 
     // 3. Scroll spy active section selection
     let current = '';
-
     spySections.forEach(section => {
         const sectionTop = section.offsetTop;
         if (scrolled >= (sectionTop - 220)) {
@@ -135,7 +134,14 @@ lenis.on('scroll', (e) => {
             link.classList.add('active');
         }
     });
-});
+};
+
+// Bind scroll listener
+if (lenis) {
+    lenis.on('scroll', (e) => handleScrollUpdate(e.scroll));
+} else {
+    window.addEventListener('scroll', () => handleScrollUpdate(window.scrollY), { passive: true });
+}
 
 // Mora-Style Typography Split & 3D Card Animation Hookup
 const profileSection = document.getElementById('profile-summary');
@@ -170,38 +176,42 @@ if (cardPerspective && profileCard) {
 
 // Unified requestAnimationFrame loop for Lenis and Mora-style scroll/tilt effects
 function animate(time) {
-    lenis.raf(time);
-    const scrolled = lenis.scroll || window.scrollY;
-    const viewportHeight = window.innerHeight;
+    try {
+        if (lenis) {
+            lenis.raf(time);
+        }
+        const scrolled = (lenis && lenis.scroll) !== undefined ? lenis.scroll : window.scrollY;
+        const viewportHeight = window.innerHeight;
 
-    // 1. Text-Splitting Scroll Parallax
-    if (profileSection) {
-        const sectionTop = profileSection.offsetTop;
-        const sectionHeight = profileSection.offsetHeight;
+        // 1. Text-Splitting Scroll Parallax
+        if (profileSection) {
+            const sectionTop = profileSection.offsetTop;
+            const sectionHeight = profileSection.offsetHeight;
 
-        if (scrolled + viewportHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
-            // Relative scroll offset starting when the section enters the screen
-            const relativeScroll = scrolled + viewportHeight - sectionTop;
-            const splitAmount = relativeScroll * 0.35; // Adjust split speed
+            if (scrolled + viewportHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
+                const relativeScroll = scrolled + viewportHeight - sectionTop;
+                const splitAmount = relativeScroll * 0.35;
 
-            if (splitPartLeft && splitPartRight) {
-                splitPartLeft.style.transform = `translateX(-${splitAmount}px) translateZ(0)`;
-                splitPartRight.style.transform = `translateX(${splitAmount}px) translateZ(0)`;
-            }
+                if (splitPartLeft && splitPartRight) {
+                    splitPartLeft.style.transform = `translateX(-${splitAmount}px) translateZ(0)`;
+                    splitPartRight.style.transform = `translateX(${splitAmount}px) translateZ(0)`;
+                }
 
-            // Slow vertical drift for the card wrapper
-            if (cardPerspective) {
-                const cardParallax = (scrolled - sectionTop) * -0.15;
-                cardPerspective.style.transform = `translateY(${cardParallax}px)`;
+                if (cardPerspective) {
+                    const cardParallax = (scrolled - sectionTop) * -0.15;
+                    cardPerspective.style.transform = `translateY(${cardParallax}px)`;
+                }
             }
         }
-    }
 
-    // 2. Smooth LERP interpolation for 3D card tilt
-    if (profileCard) {
-        currentRotX += (targetRotX - currentRotX) * lerpFactor;
-        currentRotY += (targetRotY - currentRotY) * lerpFactor;
-        profileCard.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
+        // 2. Smooth LERP interpolation for 3D card tilt
+        if (profileCard) {
+            currentRotX += (targetRotX - currentRotX) * lerpFactor;
+            currentRotY += (targetRotY - currentRotY) * lerpFactor;
+            profileCard.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
+        }
+    } catch (e) {
+        console.error("Error in animation frame loop:", e);
     }
 
     requestAnimationFrame(animate);
@@ -765,8 +775,12 @@ if (timeline && timelineProgress) {
         });
     };
     
-    // Listen to Lenis scroll for timeline progress updating
-    lenis.on('scroll', updateTimelineProgress);
+    // Listen to scroll for timeline progress updating
+    if (typeof lenis !== 'undefined' && lenis) {
+        lenis.on('scroll', updateTimelineProgress);
+    } else {
+        window.addEventListener('scroll', updateTimelineProgress, { passive: true });
+    }
     // Initial run
     updateTimelineProgress();
 }
@@ -802,7 +816,9 @@ const initPremiumScrollHighlights = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // Sync Lenis smooth scroll updates with ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    if (typeof lenis !== 'undefined' && lenis) {
+        lenis.on('scroll', ScrollTrigger.update);
+    }
 
     // Create pinning ScrollTrigger master timeline
     const tl = gsap.timeline({
