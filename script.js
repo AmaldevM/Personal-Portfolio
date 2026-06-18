@@ -984,6 +984,13 @@ const initInteractiveResume = () => {
                 // Also add show class initially for default tab
                 const defaultPane = document.querySelector('.resume-pane.active');
                 if (defaultPane) defaultPane.classList.add('show');
+                
+                // Refresh ScrollTrigger to ensure all layout calculations align after content displays
+                setTimeout(() => {
+                    if (typeof ScrollTrigger !== 'undefined') {
+                        ScrollTrigger.refresh();
+                    }
+                }, 100);
             }, 150);
         }
 

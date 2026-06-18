@@ -483,6 +483,12 @@
         align-items: center;
         padding: 0;
     }
+
+    /* Override position sticky when GSAP manages the pinning natively */
+    .highlights-scroll-stack.gsap-enabled .highlights-sticky-frame {
+        position: relative;
+        top: auto;
+    }
 }
 
 .highlights-stack-track {
@@ -581,7 +587,7 @@
     line-height: 1.15;
 }
 
-.anim-split-title span {
+.highlights-scroll-stack.gsap-enabled .anim-split-title span {
     display: inline-block;
     transform: translateY(110%);
     opacity: 0;
