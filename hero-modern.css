@@ -484,11 +484,6 @@
         padding: 0;
     }
 
-    /* Override position sticky when GSAP manages the pinning natively */
-    .highlights-scroll-stack.gsap-enabled .highlights-sticky-frame {
-        position: relative;
-        top: auto;
-    }
 }
 
 .highlights-stack-track {

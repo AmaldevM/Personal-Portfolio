@@ -180,7 +180,7 @@ function animate(time) {
         if (lenis) {
             lenis.raf(time);
         }
-        const scrolled = (lenis && lenis.scroll) !== undefined ? lenis.scroll : window.scrollY;
+        const scrolled = window.scrollY;
         const viewportHeight = window.innerHeight;
 
         // 1. Text-Splitting Scroll Parallax
