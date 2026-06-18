@@ -796,6 +796,9 @@ const initPremiumScrollHighlights = () => {
     const track = document.querySelector('.highlights-stack-track');
     if (!container || !track) return;
 
+    // Enable GSAP-specific CSS rules
+    container.classList.add('gsap-enabled');
+
     // Split text logic for titles
     const splitTitles = document.querySelectorAll('.anim-split-title');
     splitTitles.forEach(title => {
@@ -903,9 +906,13 @@ const initPremiumScrollHighlights = () => {
     tl.to({}, { duration: 0.8 });
 
     // Refresh triggers after page completely renders
-    window.addEventListener('load', () => {
+    if (document.readyState === 'complete') {
         ScrollTrigger.refresh();
-    });
+    } else {
+        window.addEventListener('load', () => {
+            ScrollTrigger.refresh();
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
