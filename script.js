@@ -76,6 +76,7 @@ mobileLinks.forEach(link => {
 // Active nav link, navbar styling, and 3D shapes parallax on scroll (Unified & requestAnimationFrame optimized)
 const navbar = document.getElementById('navbar');
 const shapes = document.querySelectorAll('.floating-shape');
+const spySections = document.querySelectorAll('section');
 
 // Initialize Lenis smooth scroll
 const lenis = new Lenis({
@@ -106,9 +107,8 @@ lenis.on('scroll', (e) => {
 
     // 3. Scroll spy active section selection
     let current = '';
-    const sections = document.querySelectorAll('section');
 
-    sections.forEach(section => {
+    spySections.forEach(section => {
         const sectionTop = section.offsetTop;
         if (scrolled >= (sectionTop - 220)) {
             current = section.getAttribute('id');

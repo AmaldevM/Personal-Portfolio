@@ -42,9 +42,14 @@ if (!window.matchMedia('(hover: none), (pointer: coarse)').matches) {
         }
 
         draw() {
-            ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life * 0.4})`;
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = `hsla(${this.hue}, 80%, 60%, ${this.life * 0.5})`;
+            // Soft outer glow circle
+            ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life * 0.12})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Core circle
+            ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life * 0.45})`;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
