@@ -197,6 +197,10 @@
 }
 
 html {
+    scroll-behavior: initial;
+}
+
+html:not(.lenis) {
     scroll-behavior: smooth;
 }
 

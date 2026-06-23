@@ -175,12 +175,12 @@ if (cardPerspective && profileCard) {
 }
 
 // Unified requestAnimationFrame loop for Lenis and Mora-style scroll/tilt effects
-function animate(time) {
+function animateScrollParallax(time) {
     try {
         if (lenis) {
             lenis.raf(time);
         }
-        const scrolled = window.scrollY;
+        const scrolled = lenis ? lenis.scroll : window.scrollY;
         const viewportHeight = window.innerHeight;
 
         // 1. Text-Splitting Scroll Parallax
@@ -190,7 +190,7 @@ function animate(time) {
 
             if (scrolled + viewportHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
                 const relativeScroll = scrolled + viewportHeight - sectionTop;
-                const splitAmount = relativeScroll * 0.35;
+                const splitAmount = relativeScroll * 0.12;
 
                 if (splitPartLeft && splitPartRight) {
                     splitPartLeft.style.transform = `translateX(-${splitAmount}px) translateZ(0)`;
@@ -214,10 +214,10 @@ function animate(time) {
         console.error("Error in animation frame loop:", e);
     }
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateScrollParallax);
 }
 
-requestAnimationFrame(animate);
+requestAnimationFrame(animateScrollParallax);
 
 // Typing animation with dynamic colors & neon glow
 const typingText = document.querySelector('.typing-text');
@@ -914,10 +914,6 @@ const initPremiumScrollHighlights = () => {
         });
     }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    initPremiumScrollHighlights();
-});
 
 // 3D Parallax Tilt Card Effect
 const projectCards = document.querySelectorAll('.project-card');
