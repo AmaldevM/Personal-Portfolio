@@ -1,0 +1,12 @@
+# Large media files - too big for GitHub (>100MB)
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
