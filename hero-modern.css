@@ -255,21 +255,27 @@
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 35px 70px rgba(0, 0, 0, 0.65);
-    background: rgba(18, 18, 30, 0.8);
+    background: rgba(10, 10, 10, 0.85);
     backdrop-filter: blur(10px);
+    transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.mora-card-inner:hover {
+    border-color: rgba(225, 6, 0, 0.3);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.75), 0 0 25px rgba(225, 6, 0, 0.15);
 }
 
 .mora-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 10%;
-    transform: scale(1.28) translateZ(0); /* Base zoom-in on face */
+    object-position: center center;
+    transform: scale(1.0) translateZ(0); /* Fits perfectly without cropping hair/chin */
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mora-card-inner:hover .mora-img {
-    transform: scale(1.38) translateZ(0); /* Hover zoom */
+    transform: scale(1.06) translateZ(0); /* Subtle premium zoom on hover */
 }
 
 .mora-card-shimmer {
