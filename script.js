@@ -174,10 +174,11 @@ if (cardPerspective && profileCard) {
     });
 }
 
-// Unified requestAnimationFrame loop for Lenis and Mora-style scroll/tilt effects
+// Unified RAF loop for scroll/tilt effects
+// lenis.raf() is handled by GSAP ticker when GSAP loads; only fallback here
 function animateScrollParallax(time) {
     try {
-        if (lenis) {
+        if (lenis && typeof gsap === 'undefined') {
             lenis.raf(time);
         }
         const scrolled = lenis ? lenis.scroll : window.scrollY;
@@ -795,7 +796,16 @@ if (timeline && timelineProgress) {
 
 // Premium Vertical Scroll Stacking and Stagger Morph Animations for Highlights
 const initPremiumScrollHighlights = () => {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        // Make highlight cards visible as fallback
+        document.querySelectorAll('.highlight-card-premium').forEach(card => {
+            card.style.opacity = '1';
+            card.style.transform = 'none';
+            card.style.borderRadius = '';
+            card.style.pointerEvents = 'auto';
+        });
+        return;
+    }
 
     // Run ScrollTrigger on desktop devices only
     if (window.innerWidth < 969) return;
@@ -829,6 +839,9 @@ const initPremiumScrollHighlights = () => {
     // Sync Lenis smooth scroll updates with ScrollTrigger
     if (typeof lenis !== 'undefined' && lenis) {
         lenis.on('scroll', ScrollTrigger.update);
+        // Use GSAP ticker to drive lenis for perfect sync
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
     }
 
     // Create pinning ScrollTrigger master timeline

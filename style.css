@@ -1,24 +1,28 @@
 /* Root Variables */
 :root {
-    --primary-hue: 250;
-    --accent-hue: 280;
-    --bg-dark: hsl(250, 30%, 8%);
-    --bg-medium: hsl(250, 20%, 12%);
-    --bg-light: hsl(250, 15%, 18%);
-    --text-primary: hsl(0, 0%, 98%);
-    --text-secondary: hsl(0, 0%, 70%);
-    --accent-primary: hsl(280, 80%, 60%);
-    --accent-secondary: hsl(250, 70%, 55%);
-    --gradient-1: linear-gradient(135deg, hsl(280, 80%, 60%), hsl(250, 70%, 55%));
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --bg-dark: #050505;
+    --bg-medium: #111111;
+    --bg-light: #1a1a1a;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A3A3A3;
+    --accent-primary: #E10600;
+    --accent-secondary: #FF2B2B;
+    --accent-silver: #B8B8B8;
+    --border-color: #252525;
+    --gradient-1: linear-gradient(135deg, #E10600, #FF2B2B);
+    --glow-red: #ff1a1a;
+    --glow-red-soft: rgba(255, 26, 26, 0.4);
+    --glow-white: rgba(255,255,255,0.15);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.7);
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 2rem;
     --spacing-lg: 4rem;
     --spacing-xl: 6rem;
-    --font-primary: 'Poppins', sans-serif;
-    --font-display: 'Space Grotesk', 'Poppins', sans-serif;
+    --font-primary: 'Inter', sans-serif;
+    --font-display: 'Bebas Neue', 'Inter', sans-serif;
+    --font-sub: 'Montserrat', 'Inter', sans-serif;
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
@@ -100,12 +104,12 @@
 .preloader-spinner {
     width: 60px;
     height: 60px;
-    border: 3px solid rgba(200, 100, 255, 0.1);
+    border: 3px solid rgba(225, 6, 0, 0.1);
     border-radius: 50%;
     border-top-color: var(--accent-primary);
     border-right-color: var(--accent-primary);
     animation: spin 1s infinite linear;
-    box-shadow: 0 0 15px rgba(200, 100, 255, 0.2);
+    box-shadow: 0 0 15px rgba(225, 6, 0, 0.2);
 }
 
 @keyframes spin {
@@ -390,7 +394,7 @@ body {
 .cursor-outline.hovering {
     width: 60px;
     height: 60px;
-    background-color: rgba(200, 100, 255, 0.1);
+    background-color: rgba(225, 6, 0, 0.08);
     border-color: var(--accent-secondary);
     border-width: 1px;
 }
@@ -492,7 +496,7 @@ body {
 .orb-1 {
     width: 500px;
     height: 500px;
-    background: hsl(280, 80%, 60%);
+    background: #E10600;
     top: -250px;
     right: -100px;
 }
@@ -500,7 +504,7 @@ body {
 .orb-2 {
     width: 400px;
     height: 400px;
-    background: hsl(250, 70%, 55%);
+    background: rgba(180, 0, 0, 0.7);
     bottom: -200px;
     left: -150px;
     animation-delay: -5s;
@@ -509,7 +513,7 @@ body {
 .orb-3 {
     width: 300px;
     height: 300px;
-    background: hsl(200, 80%, 60%);
+    background: rgba(120, 0, 0, 0.5);
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
@@ -631,8 +635,8 @@ section::before {
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(rgba(200, 100, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200, 100, 255, 0.02) 1px, transparent 1px);
+        linear-gradient(rgba(225, 6, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(225, 6, 0, 0.02) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
@@ -662,42 +666,42 @@ section>* {
 }
 
 .about::after {
-    background: hsl(280, 80%, 60%);
+    background: #E10600;
     top: 10%;
     right: -100px;
     animation: float 25s infinite ease-in-out;
 }
 
 .skills::after {
-    background: hsl(250, 70%, 55%);
+    background: rgba(180, 0, 0, 0.7);
     bottom: 10%;
     left: -100px;
     animation: float 30s infinite ease-in-out reverse;
 }
 
 .experience::after {
-    background: hsl(200, 80%, 60%);
+    background: rgba(100, 0, 0, 0.4);
     top: 50%;
     right: -150px;
     animation: float 28s infinite ease-in-out;
 }
 
 .projects::after {
-    background: hsl(280, 80%, 60%);
+    background: #E10600;
     bottom: 20%;
     left: -120px;
     animation: float 26s infinite ease-in-out reverse;
 }
 
 .education::after {
-    background: hsl(250, 70%, 55%);
+    background: rgba(180, 0, 0, 0.7);
     top: 30%;
     right: -100px;
     animation: float 24s infinite ease-in-out;
 }
 
 .contact::after {
-    background: hsl(200, 80%, 60%);
+    background: rgba(100, 0, 0, 0.4);
     top: 10%;
     left: -100px;
     animation: float 27s infinite ease-in-out reverse;
@@ -711,12 +715,12 @@ section>* {
 .section-tag {
     display: inline-block;
     padding: 0.5rem 1.25rem;
-    background: rgba(200, 100, 255, 0.1);
+    background: rgba(225, 6, 0, 0.08);
     color: var(--accent-primary);
     border-radius: var(--radius-lg);
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
-    border: 1px solid rgba(200, 100, 255, 0.2);
+    border: 1px solid rgba(225, 6, 0, 0.2);
 }
 
 .section-title {
@@ -1074,7 +1078,7 @@ section>* {
     font-size: 2rem;
     transform: translateY(20px) scale(0.8);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    filter: drop-shadow(0 0 10px rgba(200, 100, 255, 0.5));
+    filter: drop-shadow(0 0 10px rgba(225, 6, 0, 0.5));
 }
 
 .project-card:hover .project-overlay {
@@ -1323,7 +1327,7 @@ section>* {
     border-radius: var(--radius-sm);
     font-size: 0.6rem;
     color: var(--accent-primary);
-    border: 1px solid rgba(200, 100, 255, 0.1);
+    border: 1px solid rgba(225, 6, 0, 0.1);
 }
 
 .nda-label {
