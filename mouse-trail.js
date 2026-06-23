@@ -30,7 +30,7 @@
                 this.size = Math.random() * 6 + 2;
                 this.speedX = Math.random() * 1.5 - 0.75;
                 this.speedY = Math.random() * 1.5 - 0.75;
-                this.hue = 280; // Starting purple
+                this.hue = 360; // Starting red
                 this.life = 1;
             }
 
@@ -38,19 +38,19 @@
                 this.x += this.speedX;
                 this.y += this.speedY;
                 this.life -= 0.015;
-                this.hue -= 0.5; // Shift towards blue
+                this.hue -= 0.35; // Shift towards deeper crimson
                 if (this.size > 0.1) this.size -= 0.05;
             }
 
             draw() {
                 // Soft outer glow circle
-                ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life * 0.12})`;
+                ctx.fillStyle = `hsla(${this.hue}, 95%, 50%, ${this.life * 0.12})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Core circle
-                ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life * 0.45})`;
+                ctx.fillStyle = `hsla(${this.hue}, 95%, 50%, ${this.life * 0.45})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
