@@ -87,6 +87,19 @@ if (typeof Lenis !== 'undefined') {
         smoothWheel: true,
         smoothTouch: false
     });
+
+    // Sync ScrollTrigger with Lenis scroll updates globally
+    if (typeof ScrollTrigger !== 'undefined') {
+        lenis.on('scroll', ScrollTrigger.update);
+    }
+
+    // Drive Lenis with GSAP ticker globally if GSAP is available
+    if (typeof gsap !== 'undefined') {
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+    }
 }
 
 // Unified Scroll Spy & State Updater
@@ -224,10 +237,10 @@ requestAnimationFrame(animateScrollParallax);
 const typingText = document.querySelector('.typing-text');
 if (!typingText) console.warn('Typing text element not found');
 const titles = [
-    { text: 'Engineer', color: '#00f0ff', glow: 'rgba(0, 240, 255, 0.4)' },
-    { text: 'Creator', color: '#ff6b00', glow: 'rgba(255, 107, 0, 0.4)' },
-    { text: 'Developer', color: '#b55fe6', glow: 'rgba(181, 95, 230, 0.4)' },
-    { text: 'Architect', color: '#10b981', glow: 'rgba(16, 185, 129, 0.4)' }
+    { text: 'Engineer', color: '#E10600', glow: 'rgba(225, 6, 0, 0.4)' },
+    { text: 'Creator', color: '#FF2B2B', glow: 'rgba(255, 43, 43, 0.4)' },
+    { text: 'Developer', color: '#FFFFFF', glow: 'rgba(255, 255, 255, 0.35)' },
+    { text: 'Architect', color: '#B8B8B8', glow: 'rgba(184, 184, 184, 0.35)' }
 ];
 
 let titleIndex = 0;
@@ -836,41 +849,34 @@ const initPremiumScrollHighlights = () => {
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
 
-    // Sync Lenis smooth scroll updates with ScrollTrigger
-    if (typeof lenis !== 'undefined' && lenis) {
-        lenis.on('scroll', ScrollTrigger.update);
-        // Use GSAP ticker to drive lenis for perfect sync
-        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-        gsap.ticker.lagSmoothing(0);
-    }
-
-    // Create pinning ScrollTrigger master timeline
-    const tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: '.highlights-scroll-stack',
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 1, // smooth scroll scrub
-            pin: '.highlights-sticky-frame',
-            invalidateOnRefresh: true
-        }
-    });
-
     // Stagger animation query helpers
     const getLetters = (card) => card.querySelectorAll('.anim-split-title span');
     const getDetails = (card) => card.querySelectorAll('.badge-tag, .highlight-description, .highlight-details-grid, .highlight-skills');
 
-    // 1. Doztix (Card 1) Entrance & Capsule-to-Rectangle Morphing
-    tl.fromTo(cardDoztix, 
+    // 1. Entrance ScrollTrigger for Card 1 (Doztix)
+    // Animates Card 1 morphing from a capsule to card and fading in as it scrolls into the viewport.
+    const entranceTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.highlights-scroll-stack',
+            start: 'top 85%',
+            end: 'top 15%',
+            scrub: 1,
+            invalidateOnRefresh: true,
+            onEnter: () => cardDoztix.classList.add('gsap-active'),
+            onLeaveBack: () => cardDoztix.classList.remove('gsap-active'),
+            onEnterBack: () => cardDoztix.classList.add('gsap-active'),
+            onLeave: () => cardDoztix.classList.add('gsap-active')
+        }
+    });
+
+    entranceTl.fromTo(cardDoztix, 
         { opacity: 0, scale: 0.65, y: '20vh', borderRadius: '80px' },
         { 
             opacity: 1, 
             scale: 1, 
             y: '0vh', 
             borderRadius: '24px', 
-            duration: 1.2,
-            onStart: () => cardDoztix.classList.add('gsap-active'),
-            onReverseComplete: () => cardDoztix.classList.remove('gsap-active')
+            duration: 1.2
         }
     )
     .to(cardDoztix.querySelector('.card-background-marquee'), {
@@ -888,10 +894,22 @@ const initPremiumScrollHighlights = () => {
         '-=0.4'
     );
 
+    // 2. Pinning & Stack Switch ScrollTrigger (runs from top top to bottom bottom)
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.highlights-scroll-stack',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1, // smooth scroll scrub
+            pin: '.highlights-sticky-frame',
+            invalidateOnRefresh: true
+        }
+    });
+
     // Hold Card 1 in view (Scroll Cushion)
     tl.to({}, { duration: 0.8 });
 
-    // 2. Doztix Exit & Mix (Card 2) Stacking Entrance
+    // Doztix Exit & Mix (Card 2) Stacking Entrance
     tl.to(cardDoztix, {
         scale: 0.93,
         opacity: 0.45,
