@@ -221,6 +221,7 @@ requestAnimationFrame(animateScrollParallax);
 
 // Typing animation with dynamic colors & neon glow
 const typingText = document.querySelector('.typing-text');
+if (!typingText) console.warn('Typing text element not found');
 const titles = [
     { text: 'Engineer', color: '#00f0ff', glow: 'rgba(0, 240, 255, 0.4)' },
     { text: 'Creator', color: '#ff6b00', glow: 'rgba(255, 107, 0, 0.4)' },
@@ -407,7 +408,11 @@ const initHighlightsSliders = () => {
     const carousels = document.querySelectorAll('.highlight-carousel');
     
     carousels.forEach(carousel => {
-        const slides = carousel.querySelectorAll('.highlight-slide');
+        // Support both .highlight-slides > .highlight-slide and direct .highlight-slide children
+        const slidesWrapper = carousel.querySelector('.highlight-slides');
+        const slides = slidesWrapper
+            ? slidesWrapper.querySelectorAll('.highlight-slide')
+            : carousel.querySelectorAll('.highlight-slide');
         const prevBtn = carousel.querySelector('.carousel-nav.prev');
         const nextBtn = carousel.querySelector('.carousel-nav.next');
         const dots = carousel.querySelectorAll('.carousel-dot');
@@ -536,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Form submission
 const contactForm = document.getElementById('contactForm');
-contactForm.addEventListener('submit', (e) => {
+if (contactForm) contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const name = document.getElementById('name').value;
@@ -580,12 +585,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
+        if (!target) return;
+        if (lenis) {
             lenis.scrollTo(target, {
                 offset: 0,
                 duration: 1.2,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
             });
+        } else {
+            target.scrollIntoView({ behavior: 'smooth' });
         }
     });
 });
