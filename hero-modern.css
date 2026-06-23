@@ -465,6 +465,7 @@
     position: relative;
     width: 100%;
     height: auto;
+    z-index: 5;
 }
 
 @media (min-width: 969px) {
@@ -477,6 +478,7 @@
     width: 100%;
     position: relative;
     padding: 6rem 0;
+    z-index: 10;
 }
 
 @media (min-width: 969px) {
@@ -484,10 +486,11 @@
         position: sticky;
         top: 0;
         height: 100vh;
-        overflow: hidden;
+        overflow: visible;
         display: flex;
         align-items: center;
         padding: 0;
+        z-index: 10;
     }
 
     /* Override position sticky when GSAP manages the pinning natively */
