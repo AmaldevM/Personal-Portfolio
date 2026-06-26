@@ -18,30 +18,62 @@
     height: 100dvh;
     position: relative;
     overflow: hidden;
-    background: radial-gradient(circle at center, rgba(225,6,0,0.12) 0%, rgba(0,0,0,0.97) 60%), #050505;
+    background: #050505;
 }
 
-.interactive-hero-container {
-    width: 100%;
-    height: 100%;
+/* Video fills the full hero */
+.hero-video-container {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+}
+
+/* Subtle dark overlay so scroll prompt stays visible */
+.hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.0) 40%,
+        rgba(0, 0, 0, 0.0) 70%,
+        rgba(5, 5, 5, 0.75) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
 }
 
 .hero-scroll-prompt {
     position: absolute;
-    bottom: 3rem;
-    right: 4rem;
-    /* Moved to right side */
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.875rem;
-    pointer-events: none;
+    font-family: var(--font-sub);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    pointer-events: auto;
     animation: bounce 2s infinite;
     z-index: 10;
+    transition: color var(--transition-fast);
+}
+
+.hero-scroll-prompt:hover {
+    color: var(--text-primary);
 }
 
 .hero-scroll-prompt i {

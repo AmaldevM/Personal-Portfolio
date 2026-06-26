@@ -127,11 +127,22 @@
       </div>
     </div>
 
-    <!-- Full Screen Interactive Hero -->
+    <!-- Full Screen Video Hero -->
     <section class="hero-full" id="home">
-      <div class="interactive-hero-container">
-        <iframe src="https://www.unicorn.studio/embed/KdPNxP9IUMjXMgGKS5RU" width="100%" height="100%"
-          style="border:none;" title="Interactive Experience"></iframe>
+      <div class="hero-video-container">
+        <video
+          id="heroVideo"
+          class="hero-video"
+          autoplay
+          muted
+          playsinline
+          preload="auto"
+          poster=""
+        >
+          <source src="assets/new.mp4" type="video/mp4">
+        </video>
+        <!-- Gradient overlay for text readability -->
+        <div class="hero-video-overlay"></div>
       </div>
       <a href="#profile-summary" class="hero-scroll-prompt" aria-label="Scroll to Profile Overview" style="text-decoration: none;">
         <span>Discover More</span>
@@ -1314,6 +1325,30 @@
       <script src="webgl-bg.js"></script>
       <script src="mouse-trail.js"></script>
       <script src="script.js?v=9"></script>
+      <!-- Hero video: play once, freeze on last frame -->
+      <script>
+        (function () {
+          const video = document.getElementById('heroVideo');
+          if (!video) return;
+
+          // Always restart from beginning on every page load/refresh
+          video.currentTime = 0;
+
+          // When video ends, pause it at the last frame (no black flash, no loop)
+          video.addEventListener('ended', function () {
+            video.pause();
+          });
+
+          // Attempt autoplay (browsers may block unmuted autoplay)
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Autoplay blocked — show video as paused still frame
+              // User can scroll down anyway
+            });
+          }
+        })();
+      </script>
   </div>
 </body>
 
