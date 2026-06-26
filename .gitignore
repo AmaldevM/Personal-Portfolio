@@ -1,4 +1,6 @@
 # Large media files - too big for GitHub (>100MB)
+# Allow small hero video in assets/
+!assets/new.mp4
 *.mp4
 *.mov
 *.avi
